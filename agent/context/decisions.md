@@ -1,0 +1,11 @@
+# Decisions Log (durable — survives artifact expiry)
+
+Format: `D# · date · decision · rationale · source`.
+
+- **D1 · 2026-09-25 · Theme persistence via cookie `pg-theme`, read in `app/layout.tsx` at SSR.** Deviation from prototype's localStorage; eliminates first-paint theme flash. Approved in IMPLEMENTATION-PLAN rev 1.1 (deviation #1). Source: plan §2.3, prototype-notes §C.
+- **D2 · 2026-09-25 · Command palette ships as lazy chunk (`next/dynamic`, mounted on first intent).** Keeps initial JS ≤ 70 KB gz budget. Approved deviation #2. Source: plan §2.3/§5.
+- **D3 · 2026-09-25 · Build executor = Arena.ai agent ("Option A"), not Antigravity.** Owner decision after comparing workflows. The phase prompts in `agent/prompts/` remain the canonical execution contract; commit trailer adapts to `Agent: Arena-Agent (phase-NN)`; rule text "Antigravity-specific files" applies to any coding agent. Owner pushes to GitHub; agent never holds credentials. Source: owner chat decision.
+- **D4 · 2026-09-25 · Branch model: `main` = production (untouched during build), `develop` = integration, `phase/NN-<slug>` branches cut from and squash-merged into `develop`, deleted after merge; releases via `develop → main` PR + tag (Phase 12 launch candidate, Phase 13 `v1.0.0`).** Source: agent/prompts/README.md "Git branch model".
+- **D5 · 2026-09-25 · Repo baseline: `develop` (4dedf32, README+LICENSE+.gitignore) is 1 commit ahead of `main` (7221b5d). All phase work bases on `develop`; the existing root `.gitignore` is kept and extended (agent/artifacts, agent/scratch), never replaced.** Source: clone inspection.
+- **D6 · 2026-09-25 · `agent/artifacts/` + `agent/scratch/` are gitignored; durable knowledge lives in `agent/context/` and `docs/`.** Phase evidence is reviewed by owner in the workspace/PR description before push. Source: plan §2.13 isolation guarantees.
+- **D7 · 2026-09-25 · Prototype and CV frozen by hash:** `docs/prototype/index.html` sha256 `839584ca06cb0db53d0e92425a7cc2b4e867ebf23aece238e8b2a60ac0ca8f5e`; `docs/cv/Prince_Gupta_Frontend_Engineer.pdf` sha256 `b5cdf31ff436c510f28bafef2ec8e7091245a4e4d793ab1a99ff7f4840bf457a`. Any change to these files invalidates Phase 0 analysis and requires owner re-approval. Source: this phase.
