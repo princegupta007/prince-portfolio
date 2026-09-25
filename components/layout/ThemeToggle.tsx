@@ -18,7 +18,11 @@ export function ThemeToggle({ initial }: { initial: Theme }) {
       title="Switch theme"
       onClick={() => {
         const next = toggle();
-        show(next === "dark" ? "Dark theme · engineering hours" : "Light theme · paper mode");
+        show(
+          next === "dark"
+            ? "Dark theme · engineering hours"
+            : "Light theme · paper mode",
+        );
       }}
     >
       <Icon name={theme === "dark" ? "moon" : "sun"} size={16} />

@@ -16,7 +16,8 @@ import type { Theme } from "@/hooks/useTheme";
  */
 export async function Header() {
   const store = await cookies();
-  const theme: Theme = store.get(THEME_COOKIE)?.value === "light" ? "light" : "dark";
+  const theme: Theme =
+    store.get(THEME_COOKIE)?.value === "light" ? "light" : "dark";
 
   return (
     <HeaderShell>
