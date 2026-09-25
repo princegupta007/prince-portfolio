@@ -3,6 +3,7 @@
 > Paste this entire file into Antigravity as one task. Phase 8 must be approved. Do not start Phase 10 until the Definition of Done is met and the owner approves the Final Report.
 
 ## CRITICAL AGENT RULES (binding for this phase)
+
 1. Do not blindly implement. First inspect the existing project state and relevant files.
 2. Do not overwrite working code unnecessarily.
 3. Do not introduce unnecessary dependencies.
@@ -22,12 +23,15 @@
 17. After implementation, run the relevant checks and fix issues found during validation.
 
 ## 1. Objective
+
 Dedicated performance pass to plan §5 targets: initial client JS ≤ 70 KB gz (palette lazy counted separately), LCP < 1.8 s lab, CLS 0, INP < 200 ms, Lighthouse ≥ 95 all categories mobile; caching headers; zero third-party runtime scripts; efficient animations verified.
 
 ## 2. Context
+
 Phases 1–8 delivered SEO-complete accessible page. Islands currently: ThemeToggle, MobileMenu, ScrollSpy, ScrollProgress, DotRail, HeroCanvas, WiringDiagram, RoleLens, CopyButton, Reveal-wrapped clients, Counter, ScrambleWord, Preloader, InteractionLayer, Toast + lazy CommandPalette. Rendering: single static route (prerendered). Assets: fonts (next/font), CV PDF, og.png, favicon.
 
 ## 3. Tasks
+
 - [ ] `agent/tools/bundle-check.ts`: parse `next build` output / `.next` manifest → (a) assert zero chunks referencing `agent/`; (b) report first-load JS of `/` vs 70 KB gz budget; (c) list island chunks with sizes; wire `pnpm agent:bundle-check`; add `budget.json` (resourceSizes: script 80 KB, total 350 KB).
 - [ ] Code-split audit: `CommandPalette` confirmed `next/dynamic` lazy; convert below-fold heavy islands (`RoleLens`, `WiringDiagram`, `HeroCanvas`) to `next/dynamic` **with `ssr: true`** (keeps SEO, splits client JS) ONLY if measurable first-load reduction without hydration flash; document decision either way.
 - [ ] Hydration audit: no island does layout-affecting work post-mount (CLS sources): counters reserve width (tabular-nums + min-width), preloader is fixed overlay, reveal hidden-state strategy verified no-shift, fonts fallback metrics (next/font auto) confirmed via CLS 0 in Lighthouse.
@@ -41,24 +45,29 @@ Phases 1–8 delivered SEO-complete accessible page. Islands currently: ThemeTog
 - [ ] `agent/workflows/perf-audit.md` authored (budget check + lighthouse + trace steps).
 
 ## 4. Technical Requirements
+
 - No new runtime deps; no images introduced; no SSR disabled anywhere.
 - Budget failures fail CI (bundle-check wired later in Phase 11 CI).
 - Every optimization must keep no-JS readability and SEO intact (verify curl after splits).
 
 ## 5. Files / Folders
+
 Create/modify: `agent/tools/bundle-check.ts`, `budget.json`, `vercel.json` (cache headers), island dynamic-import changes (if justified), `agent/workflows/perf-audit.md`, artifact (lighthouse JSON ×3, trace summary, CSS/JS size table).
 Do not touch: copy, visuals, a11y attributes, SEO metadata.
 
 ## 6. Agent Folder
+
 **Modified:** new tool + workflow; budget decisions logged in `decisions.md` (e.g., whether RoleLens split applied).
 
 ## 7. Restrictions
+
 - Do not disable/defer content visibility for scores (no lazy text).
 - Do not add service worker/PWA (not needed; adds complexity).
 - Do not inline large CSS/JS manually (Next handles critical CSS).
 - Do not accept Lighthouse < 95 in any category without owner-approved written exception.
 
 ## 8. Validation
+
 - `pnpm agent:bundle-check` exit 0 with first-load table in report.
 - `pnpm lint && pnpm tsc --noEmit && pnpm build` green; `curl` no-JS content check still passes post-splits.
 - Lighthouse mobile median: Perf ≥ 95, A11y ≥ 95, BP ≥ 95, SEO ≥ 95; LCP < 1.8 s; CLS 0; TBT < 150 ms.
@@ -66,11 +75,13 @@ Do not touch: copy, visuals, a11y attributes, SEO metadata.
 - `curl -I` on static assets shows intended cache headers (local header emulation or post-deploy check noted for Phase 12).
 
 ## 9. Definition of Done
+
 - [ ] Budgets green; lighthouse targets met (median of 3); trace clean.
 - [ ] Cache headers committed; third-party list = empty.
 - [ ] `perf-audit.md` workflow committed; PR approved with Final Report.
 
 ## 10. FINAL REPORT (fill in and return)
+
 - Completed: …
 - Files created: …
 - Files modified: …

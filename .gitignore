@@ -145,3 +145,12 @@ vite.config.ts.timestamp-*
 # --- Agent workspace (Antigravity/Arena) — ephemeral, never imported by app code ---
 agent/artifacts/
 agent/scratch/
+
+# --- create-next-app defaults not already covered above ---
+/.pnp
+.pnp.js
+*.pem
+.DS_Store
+.pnpm-debug.log*
+/out/
+.vercel

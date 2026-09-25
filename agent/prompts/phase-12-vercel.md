@@ -3,6 +3,7 @@
 > Paste this entire file into Antigravity as one task. Phase 11 must be approved. Do not start Phase 13 until the Definition of Done is met and the owner approves the Final Report.
 
 ## CRITICAL AGENT RULES (binding for this phase)
+
 1. Do not blindly implement. First inspect the existing project state and relevant files.
 2. Do not overwrite working code unnecessarily.
 3. Do not introduce unnecessary dependencies.
@@ -22,12 +23,15 @@
 17. After implementation, run the relevant checks and fix issues found during validation.
 
 ## 1. Objective
+
 Deploy to Vercel entirely within the Hobby free tier: project link, env config, preview + production pipelines, Speed Insights, cache/header verification on live URLs, rollback drill, and an explicit **cost-identification report** naming anything that could ever incur cost.
 
 ## 2. Context
+
 Phases 1–11 delivered CI-green app. Plan §7 is binding: static prerender, zero serverless functions, zero DB/middleware/cron; Hobby limits to respect (verify live at kickoff and record): ~100 GB/mo transfer, 6,000 build min/mo, 1–2 concurrent builds, 1k optimized images/mo (unused), Speed Insights free on Hobby. Site weight ~2–4 MB/visit ⇒ huge headroom.
 
 ## 3. Tasks
+
 - [ ] Owner performs one-time account/GitHub connect (agent documents steps; agent never handles credentials). Project import: framework Next.js detected; root dir repo root; Node 20; pnpm.
 - [ ] Environment variables: `NEXT_PUBLIC_SITE_URL` (production value; preview env left unset → code falls back to `VERCEL_URL` for canonical/OG on previews); no secrets exist — assert `.env*` never committed.
 - [ ] Release merge: open `develop → main` PR (merge commit, title "release: launch candidate v1.0.0-rc1"); Vercel project settings confirm production branch = `main`, develop = persistent preview.
@@ -41,24 +45,29 @@ Phases 1–11 delivered CI-green app. Plan §7 is binding: static prerender, zer
 - [ ] Tag repo `v1.0.0-rc1` after prod verification.
 
 ## 4. Technical Requirements
+
 - Zero serverless functions/middleware/edge/cron/blob in final config (assert via `vercel.json` + build output "no functions").
 - Previews public (content is public); do NOT enable Deployment Protection (paid) — owner approval required if ever desired.
 - All verification scripts run against HTTPS prod/preview URLs; no local-only assumptions.
 
 ## 5. Files / Folders
+
 Create/modify: `agent/workflows/{release,rollback}.md`, artifact (cost report, header dumps, checklist results, rollback drill log), repo tag. Possibly `vercel.json` tweaks if live checks diverge.
 Do not touch: app code (except config fixes demanded by live checks — list them).
 
 ## 6. Agent Folder
+
 **Modified:** release + rollback workflows authored; cost report archived; decisions.md updated with live-verified Hobby limits (date-stamped).
 
 ## 7. Restrictions
+
 - Do not enable ANY paid feature (Analytics events, Pro bandwidth, Deployment Protection, Vercel Firewall paid tiers) without explicit owner approval in writing.
 - Do not store credentials/tokens in repo or agent files; CLI login happens in owner session.
 - Do not add serverless API routes "for later".
 - Do not declare done before rollback drill succeeds both directions.
 
 ## 8. Validation
+
 - Prod URL passes full post-deploy checklist (evidence in artifact).
 - Preview pipeline proven on a real PR; canonical fallback proven.
 - `curl -I` prod: security + cache headers + HSTS present.
@@ -66,11 +75,13 @@ Do not touch: app code (except config fixes demanded by live checks — list the
 - Rollback drill log complete; cost report signed by owner.
 
 ## 9. Definition of Done
+
 - [ ] Production live + verified; previews working; env config correct.
 - [ ] Cost report approved (confirms Hobby-only).
 - [ ] release/rollback workflows committed; tag created; PR/Final Report approved.
 
 ## 10. FINAL REPORT (fill in and return)
+
 - Completed: …
 - Files created: …
 - Files modified: …

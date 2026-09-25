@@ -3,6 +3,7 @@
 > Paste this entire file into Antigravity as one task. Phase 0 must be approved. Do not start Phase 2 until the Definition of Done is met and the owner approves the Final Report.
 
 ## CRITICAL AGENT RULES (binding for this phase)
+
 1. Do not blindly implement. First inspect the existing project state and relevant files.
 2. Do not overwrite working code unnecessarily.
 3. Do not introduce unnecessary dependencies.
@@ -22,12 +23,15 @@
 17. After implementation, run the relevant checks and fix issues found during validation.
 
 ## 1. Objective
+
 Initialize the Next.js application from scratch at repo root with the exact toolchain, config, fonts, folder skeleton and `agent/` governance scaffold defined in IMPLEMENTATION-PLAN §1–§2.2/§2.13 (Phase 1). End state: a green build serving a placeholder page, with fonts self-hosted and agent rules loadable.
 
 ## 2. Context
+
 Phase 0 delivered `docs/` + `agent/context/` + analysis. Repo currently has no app code. Stack (plan §1): Next.js 15+ App Router, React 19, TypeScript strict, Tailwind CSS v4, ESLint 9 flat + eslint-config-next, Prettier + prettier-plugin-tailwindcss, pnpm, Node 20+. Runtime dependencies must remain `next, react, react-dom` only.
 
 ## 3. Tasks
+
 - [ ] `pnpm create next-app` at repo root (App Router, TS, Tailwind, ESLint, no src dir, import alias `@/*`); delete starter boilerplate (`app/page.tsx` content replaced by a minimal placeholder, remove starter css/assets).
 - [ ] `tsconfig.json`: `strict: true`, `noUncheckedIndexedAccess: true`, paths alias.
 - [ ] ESLint flat config: `eslint-config-next` + typescript-eslint; add `no-restricted-imports` rule banning `agent/**` imports inside `app/ components/ lib/ content/ hooks/`; add Node-env override for `agent/tools/**`.
@@ -42,18 +46,22 @@ Phase 0 delivered `docs/` + `agent/context/` + analysis. Repo currently has no a
 - [ ] Placeholder `app/page.tsx`: server component rendering `<h1>Portfolio — foundation check</h1>` + font specimen paragraph (used by validation, replaced in Phase 3/4).
 
 ## 4. Technical Requirements
+
 - Zero runtime deps beyond next/react/react-dom; devDeps limited to create-next-app defaults + prettier plugins + tsx.
 - Fonts must be self-hosted by `next/font` (no `fonts.googleapis.com` request at runtime).
 - `pnpm lint && pnpm tsc --noEmit && pnpm build` must pass before commit.
 
 ## 5. Files / Folders
+
 Create/modify: repo root configs (`next.config.ts`, `tsconfig.json`, `eslint.config.mjs`, `prettier.config.mjs`, `.editorconfig`, `.env.example`, `vercel.json`, `.gitignore`), `app/{layout.tsx,page.tsx,globals.css}`, `lib/*`, folder skeleton, `public/cv/*.pdf`, `agent/rules/*`, `AGENTS.md`, `package.json`.
 Do not touch: `docs/`, `agent/context/`, `agent/prompts/`.
 
 ## 6. Agent Folder
+
 **Modified:** rules 00–50 authored, `AGENTS.md` pointer added, gitignore entries, `agent:*` script stubs. Application config carries only the isolation enforcement (ESLint ban) — that is app-side policy, not agent content.
 
 ## 7. Restrictions
+
 - Do not implement design tokens, components, or sections (Phase 2–4).
 - Do not add any UI/animation/icon/form library.
 - Do not configure Vercel project or deploy (Phase 12).
@@ -61,17 +69,20 @@ Do not touch: `docs/`, `agent/context/`, `agent/prompts/`.
 - Do not commit `.env` files or secrets.
 
 ## 8. Validation
+
 - `pnpm lint`, `pnpm tsc --noEmit`, `pnpm build` → exit 0.
 - `pnpm dev` + browser network tab: zero requests to font CDNs; fonts served from `/_next/static/media/`.
 - `grep -r "agent/" app components lib content hooks` for import statements → zero hits (ban rule also tested by intentionally adding+reverting a violating import in a scratch file, lint must flag it).
 - Fresh Antigravity session smoke test: with only repo access, agent answers "list the content-policy rules and the JS budget" correctly from `AGENTS.md` + `agent/rules/*` without extra prompting.
 
 ## 9. Definition of Done
+
 - [ ] All §3 tasks checked; build green; fonts self-hosted; import ban proven.
 - [ ] `agent/rules/*` + `AGENTS.md` committed; artifacts/scratch gitignored.
 - [ ] PR `phase/01-foundation` → `develop` opened with workflow name + Final Report; squash-merged after owner approval; branch deleted.
 
 ## 10. FINAL REPORT (fill in and return)
+
 - Completed: …
 - Files created: …
 - Files modified: …

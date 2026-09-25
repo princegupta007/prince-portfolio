@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+/* Phase 1: font wiring only.
+   Full design tokens (colors, radii, shadows, easings, breakpoints, keyframes)
+   land in Phase 2 — source of truth: docs/DESIGN-SYSTEM.md + agent/rules/20-design-system.md */
+
+@theme inline {
+  --font-display: var(--font-bricolage);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
+}
+
+body {
+  font-family:
+    var(--font-sans),
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
