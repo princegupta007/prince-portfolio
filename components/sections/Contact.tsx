@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { CopyButton } from "@/components/interactive/CopyButton";
@@ -71,7 +72,7 @@ export function Contact() {
   return (
     <section className="sec contact" id="contact" aria-labelledby="ct-h">
       <div className="wrap ct-grid">
-        <div>
+        <div className="reveal">
           <div className="sec-head" style={{ marginBottom: 26 }}>
             <span className="idx" aria-hidden="true">
               {CONTACT_HEAD.idx}
@@ -80,7 +81,7 @@ export function Contact() {
               {CONTACT_HEAD.meta}
             </span>
           </div>
-          <h2 className="ct-h lines" id="ct-h">
+          <h2 className="ct-h lines" id="ct-h" style={{ "--ld": "60ms" } as CSSProperties}>
             <span className="ln">
               <span>{CONTACT_HEAD.titleLines[0]}</span>
             </span>
@@ -127,7 +128,7 @@ export function Contact() {
             </Button>
           </div>
         </div>
-        <div className="ct-card">
+        <div className="ct-card reveal" style={{ "--d": "120ms" } as CSSProperties}>
           <div className="ct-avail">
             <span className="dot" aria-hidden="true" />
             <span>

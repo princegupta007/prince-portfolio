@@ -1,33 +1,40 @@
+import type { CSSProperties } from "react";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { Pill } from "@/components/ui/Primitives";
 import { HeroCanvas } from "@/components/interactive/HeroCanvas";
+import { HeroFx } from "@/components/interactive/HeroFx";
+import { ScrambleWord } from "@/components/interactive/ScrambleWord";
 import { CONTACT, CV_PATH } from "@/lib/constants";
 import { parseRich } from "@/lib/rich";
 import { HERO } from "@/content/hero";
 import { MARQUEE_ITEMS } from "@/content/marquee";
 
 /**
- * 01 · Hero — Server Component. Rotator renders words[0] statically
- * (scramble = Phase 5), lede/CTAs/link chips verbatim, decorative specimen
- * canvas via the HeroCanvas island, marquee static (animation = Phase 5).
+ * 01 · Hero — Server Component. Rotator renders words[0] on the server;
+ * the ScrambleWord island cycles the five words (3.6s) after mount.
+ * HeroFx drives glow + depth parallax; HeroCanvas auto-cycles the RBAC
+ * specimen (2.9s). Lede/CTAs/link chips verbatim.
  */
 export function Hero() {
   return (
     <section className="hero" id="hero" aria-labelledby="hero-h">
       <div className="hero-bg" aria-hidden="true" />
       <div id="heroGlow" aria-hidden="true" />
+      <HeroFx />
       <div className="wrap hero-grid">
         <div className="hero-copy">
-          <div className="status-row">
+          <div className="status-row reveal">
             {HERO.pills.map((p) => (
               <Pill key={p.text} dot={p.dot}>
                 {p.text}
               </Pill>
             ))}
           </div>
-          <p className="kicker">{HERO.kicker}</p>
-          <h1 className="hero-h lines" id="hero-h">
+          <p className="kicker reveal" style={{ "--d": "60ms" } as CSSProperties}>
+            {HERO.kicker}
+          </p>
+          <h1 className="hero-h lines" id="hero-h" style={{ "--ld": "150ms" } as CSSProperties}>
             <span className="ln">
               <span>{HERO.h1.line1}</span>
             </span>
@@ -40,15 +47,15 @@ export function Hero() {
               </span>
             </span>
           </h1>
-          <p className="hero-rot">
+          <p className="hero-rot reveal" style={{ "--d": "260ms" } as CSSProperties}>
             {HERO.rot.before}
-            <span className="rot" id="rotator">
-              {HERO.rot.words[0]}
-            </span>
+            <ScrambleWord words={HERO.rot.words} />
             {HERO.rot.after}
           </p>
-          <p className="hero-lede">{parseRich(HERO.lede)}</p>
-          <div className="cta-row">
+          <p className="hero-lede reveal" style={{ "--d": "340ms" } as CSSProperties}>
+            {parseRich(HERO.lede)}
+          </p>
+          <div className="cta-row reveal" style={{ "--d": "420ms" } as CSSProperties}>
             <Button
               href="#expertise"
               variant="primary"
@@ -88,7 +95,7 @@ export function Hero() {
               {HERO.ctas[2].label}
             </Button>
           </div>
-          <div className="link-row">
+          <div className="link-row reveal" style={{ "--d": "500ms" } as CSSProperties}>
             {HERO.links.map((l) => (
               <a
                 key={l.label}

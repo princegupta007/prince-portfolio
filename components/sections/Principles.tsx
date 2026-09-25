@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { SectionHead } from "@/components/ui/Primitives";
 import { PRINCIPLES, PRINCIPLES_HEAD } from "@/content/principles";
 
@@ -16,8 +17,12 @@ export function Principles() {
           hId="pr-h"
         />
         <div className="pr-grid">
-          {PRINCIPLES.map((p) => (
-            <article className="pr" key={p.num}>
+          {PRINCIPLES.map((p, pi) => (
+            <article
+              className="pr reveal"
+              style={{ "--d": `${pi * 80}ms` } as CSSProperties}
+              key={p.num}
+            >
               <span className="pr-n" aria-hidden="true">
                 {p.num}
               </span>

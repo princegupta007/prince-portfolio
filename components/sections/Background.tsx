@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { SectionHead } from "@/components/ui/Primitives";
 import { parseRich } from "@/lib/rich";
@@ -22,8 +23,12 @@ export function Background() {
           hId="bg-h"
         />
         <div className="edu-grid">
-          {EDUCATION.map((e) => (
-            <article className="edu" key={e.abbr}>
+          {EDUCATION.map((e, ei) => (
+            <article
+              className="edu reveal"
+              style={{ "--d": `${ei === 0 ? 0 : 90}ms` } as CSSProperties}
+              key={e.abbr}
+            >
               <div>
                 <h3 className="edu-deg">{e.degree}</h3>
                 <span className="chip edu-fld">
@@ -41,7 +46,7 @@ export function Background() {
             </article>
           ))}
         </div>
-        <div className="edu-note">
+        <div className="edu-note reveal" style={{ "--d": "140ms" } as CSSProperties}>
           <span className="spark" aria-hidden="true">
             ✦
           </span>

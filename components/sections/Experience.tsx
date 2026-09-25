@@ -18,7 +18,7 @@ export function Experience() {
     <section className="sec" id="experience" aria-labelledby="exph-h">
       <div className="wrap">
         <div className="tl">
-          <div className="tl-left">
+          <div className="tl-left reveal">
             <span className="idx" aria-hidden="true">
               {EXPERIENCE_HEAD.idx}
             </span>
@@ -37,7 +37,7 @@ export function Experience() {
             <div id="tlFill" aria-hidden="true" />
             {EXPERIENCE_ROLES.map((r) => (
               <article
-                className={cn("role", r.current && "now")}
+                className={cn("role", r.current && "now", "reveal")}
                 key={r.company + r.period}
               >
                 <div className="role-head">

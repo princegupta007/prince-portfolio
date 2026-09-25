@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { CSSProperties } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { Tag } from "@/components/ui/Primitives";
 import { parseRich } from "@/lib/rich";
@@ -20,21 +21,26 @@ import {
   grantedCount,
 } from "@/content/exhibit";
 import type { RoleId, RoleSpec } from "@/content/types";
+import { isReduced } from "@/hooks/useReducedMotion";
 
 /**
- * 04 · Access-control exhibit — interactive core (Phase 4, instant state):
+ * 04 · Access-control exhibit — interactive core (Phase 5):
  * role tabs (aria-pressed), capability matrix column highlight, mock window
  * (nav grants, url/scope/title/note, approve state, contact masking) and the
- * audit console. SSR + first client render = super-admin lens, first three
- * audit lines — fully readable without JavaScript. Line-stagger animation
- * and timestamps-on-load are Phase 5; timestamps appear on role switch.
+ * audit console. SSR + first client render = super-admin lens with the first
+ * three audit lines (readable without JavaScript). After mount the console
+ * boots like the prototype: lines append one-by-one (150ms stagger, instant
+ * under reduced motion) with live timestamps, trimmed to the last 7; every
+ * role switch pushes a fresh block the same way.
  */
 
-type AuditLine = { time: string | null; text: string };
+type AuditLine = { id: number; time: string | null; text: string };
 
+// fixed ids for the SSR block (module state must stay request-independent);
+// the client-side sequence starts above it after the console boot.
 const INITIAL_AUDIT: AuditLine[] = buildAuditLines(ROLES_BY_ID.super)
   .slice(0, 3)
-  .map((text) => ({ time: null, text }));
+  .map((text, i) => ({ id: i, time: null, text }));
 
 function hhmmss(): string {
   const d = new Date();
@@ -46,17 +52,48 @@ function hhmmss(): string {
 export function RoleLens() {
   const [roleId, setRoleId] = useState<RoleId>("super");
   const [audit, setAudit] = useState<AuditLine[]>(INITIAL_AUDIT);
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const lineSeq = useRef(100);
   const role: RoleSpec = ROLES_BY_ID[roleId];
   const activeCol = ROLE_ORDER.indexOf(role.id);
 
+  /**
+   * Prototype pushAudit: append with 150ms stagger (instant under reduced
+   * motion), timestamp at append, keep the last 7. `replace` resets the
+   * console inside the first timer — the boot effect never sets state
+   * synchronously (React 19 lint rule).
+   */
+  const pushAudit = (lines: string[], replace = false) => {
+    timers.current.forEach(clearTimeout);
+    timers.current = [];
+    const step = isReduced() ? 0 : 150;
+    lines.forEach((text, i) => {
+      timers.current.push(
+        setTimeout(() => {
+          const line = { id: lineSeq.current++, time: hhmmss(), text };
+          setAudit((prev) =>
+            i === 0 && replace ? [line] : [...prev, line].slice(-7),
+          );
+        }, i * step),
+      );
+    });
+  };
+
+  // console boot on load (prototype: setRole("super") runs the stagger once)
+  useEffect(() => {
+    pushAudit(buildAuditLines(ROLES_BY_ID.super), true);
+    const t = timers.current;
+    return () => t.forEach(clearTimeout);
+  }, []);
+
   const choose = (spec: RoleSpec) => {
     setRoleId(spec.id);
-    setAudit(buildAuditLines(spec).map((text) => ({ time: hhmmss(), text })));
+    pushAudit(buildAuditLines(spec));
   };
 
   return (
     <div className="ex-grid">
-      <div className="ex-left">
+      <div className="ex-left reveal">
         <div className="role-tabs" role="group" aria-label="Preview as role">
           {EXHIBIT_ROLES.map((r) => (
             <button
@@ -114,7 +151,7 @@ export function RoleLens() {
           <div className="mx-foot">{MATRIX_LEGEND}</div>
         </div>
       </div>
-      <div className="ex-right">
+      <div className="ex-right reveal" style={{ "--d": "120ms" } as CSSProperties}>
         <div className="mock">
           <div className="mock-bar">
             <span className="tl-dots" aria-hidden="true">
@@ -233,8 +270,8 @@ export function RoleLens() {
             <span className="tag">{AUDIT_HEAD.tag}</span>
           </div>
           <div className="audit-body">
-            {audit.map((ln, i) => (
-              <div className="ln" key={i}>
+            {audit.map((ln) => (
+              <div className="ln" key={ln.id}>
                 {ln.time && <em>{ln.time}</em>}
                 <span>{parseRich(ln.text, "b")}</span>
               </div>

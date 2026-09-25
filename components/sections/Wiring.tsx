@@ -11,7 +11,7 @@ import { WIRING_HEAD, WIRING_INTRO } from "@/content/wiring";
  */
 export function Wiring() {
   return (
-    <div className="wiring" id="wiring">
+    <div className="wiring reveal" id="wiring">
       <div className="wire-head">
         <span className="idx" aria-hidden="true">
           {WIRING_HEAD.idx}

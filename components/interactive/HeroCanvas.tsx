@@ -1,20 +1,58 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { Icon } from "@/components/ui/Icon";
-import { HERO_CANVAS, HERO_FLOAT_CHIPS } from "@/content/hero";
+import { HERO_CANVAS, HERO_CANVAS_CYCLE, HERO_FLOAT_CHIPS } from "@/content/hero";
+import { useAutoCycle } from "@/hooks/useAutoCycle";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 /**
- * Hero specimen canvas — Phase 4 renders the STATIC super-admin state
- * (8 nav skeletons lit, scope "all records", 8/8 modules, contacts visible).
- * Client island per the phase island-map: Phase 5 adds the 2.9s role cycle
- * and pointer parallax inside this same shell (data already in content/hero.ts).
- * Purely decorative — the parent .hero-visual carries aria-hidden.
+ * Hero specimen canvas — auto-cycling RBAC demo (prototype parity):
+ * super admin → admin → company → partner every 2.9s; nav skeletons light
+ * per role, scope/module text swaps, contacts mask below admin, role pill
+ * cross-fades (180ms). Pauses off-screen / hidden tab; reduced motion keeps
+ * the complete static super-admin state (SSR renders exactly that, so the
+ * no-JS page is identical). Decorative — parent .hero-visual is aria-hidden.
+ * Contact strings are specimen data (prototype: +91/+971 dials alternate,
+ * masked roles see "hidden ·••").
  */
 export function HeroCanvas() {
+  const reduced = useReducedMotion();
+  const [ci, setCi] = useState(0);
+  const [pillRole, setPillRole] = useState<string>(HERO_CANVAS_CYCLE[0]!.role);
+  const [pillOp, setPillOp] = useState(1);
+  const [host, setHost] = useState<HTMLDivElement | null>(null);
+
+  // role pill cross-fade (prototype: opacity 0 → swap text @180ms → 1),
+  // driven from the cycle tick so no state is set inside an effect body
+  const fadeT = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const advance = () => {
+    setPillOp(0);
+    if (fadeT.current) clearTimeout(fadeT.current);
+    fadeT.current = setTimeout(() => {
+      setCi((i) => {
+        const next = (i + 1) % HERO_CANVAS_CYCLE.length;
+        setPillRole(HERO_CANVAS_CYCLE[next]!.role);
+        return next;
+      });
+      setPillOp(1);
+    }, 180);
+  };
+  useAutoCycle(2900, advance, reduced ? null : host);
+  useEffect(() => {
+    const t = () => {
+      if (fadeT.current) clearTimeout(fadeT.current);
+    };
+    return t;
+  }, []);
+
+  const c = HERO_CANVAS_CYCLE[ci] ?? HERO_CANVAS_CYCLE[0]!;
+  const contactText = c.mask ? "hidden ·••" : ci % 2 ? "+971 •••• ••••" : "+91 •••• ••••";
+
   return (
     <div className="cv-wrap" data-depth="14">
-      <div className="canvas" id="heroCanvas">
+      <div className="canvas" id="heroCanvas" ref={setHost}>
         <div className="scan" />
         <div className="cv-chrome">
           <span className="tl-dots" aria-hidden="true">
@@ -23,8 +61,8 @@ export function HeroCanvas() {
             <i />
           </span>
           <span className="cv-url">{HERO_CANVAS.badge}</span>
-          <span className="cv-role" id="hcRole">
-            {HERO_CANVAS.role}
+          <span className="cv-role" id="hcRole" style={{ opacity: pillOp }}>
+            {pillRole}
           </span>
         </div>
         <div className="cv-body">
@@ -32,7 +70,7 @@ export function HeroCanvas() {
             {HERO_CANVAS.navSkels.map((w, i) => (
               <div
                 key={i}
-                className="nav-skel on"
+                className={i < c.on ? "nav-skel on" : "nav-skel off"}
                 style={{ "--w": `${w}%` } as CSSProperties}
               />
             ))}
@@ -41,7 +79,7 @@ export function HeroCanvas() {
             <div className="cv-head">
               <span className="cv-title-bar" />
               <span className="cv-scope" id="hcScope">
-                {HERO_CANVAS.scope}
+                {c.scope}
               </span>
             </div>
             <div className="cv-rows">
@@ -54,8 +92,8 @@ export function HeroCanvas() {
                   <span className={row.mut ? "cv-st mut" : "cv-st"}>
                     {row.st}
                   </span>
-                  <span className="cv-contact hc-contact">
-                    {HERO_CANVAS.contact}
+                  <span className={c.mask ? "cv-contact hc-contact masked" : "cv-contact hc-contact"}>
+                    {contactText}
                   </span>
                 </div>
               ))}
@@ -63,9 +101,11 @@ export function HeroCanvas() {
           </div>
         </div>
         <div className="cv-foot">
-          <span>{HERO_CANVAS.footLeft}</span>
           <span>
-            <b id="hcMods">{HERO_CANVAS.mods}</b> {HERO_CANVAS.modsLabel}
+            {reduced ? HERO_CANVAS.footLeft : `${HERO_CANVAS.footLeft} — auto-cycling`}
+          </span>
+          <span>
+            <b id="hcMods">{c.mods}</b> {HERO_CANVAS.modsLabel}
           </span>
         </div>
       </div>

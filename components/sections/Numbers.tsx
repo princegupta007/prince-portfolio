@@ -1,18 +1,14 @@
+import type { CSSProperties } from "react";
 import { SectionHead } from "@/components/ui/Primitives";
+import { Counter } from "@/components/interactive/Counter";
 import { METRICS, NUMBERS_HEAD } from "@/content/metrics";
 
 /**
- * 02 · In numbers — divided 6-cell strip. Phase 4 renders the FINAL
- * formatted values server-side (3.5+ · 7 · 5,000+ · ~30% · 4 · 8);
- * Phase 5 animates the count-up from 0 against the same data-count hooks.
+ * 02 · In numbers — divided 6-cell strip. SSR renders the FINAL formatted
+ * values (3.5+ · 7 · 5,000+ · ~30% · 4 · 8); the Counter island animates
+ * the count-up (1.5s easeOutQuart at 50% visibility, once). Reduced motion
+ * or no-JS: the final values simply stay.
  */
-
-function grouped(value: number, decimals: number): string {
-  return value.toLocaleString("en-US", {
-    minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals,
-  });
-}
 
 export function Numbers() {
   return (
@@ -24,16 +20,18 @@ export function Numbers() {
           meta={NUMBERS_HEAD.meta}
           hId="num-h"
         />
-        <div className="metrics" role="list">
+        <div
+            className="metrics reveal"
+            role="list"
+            style={{ "--d": "120ms" } as CSSProperties}
+          >
           {METRICS.map((m) => {
             const { decimals = 0, prefix = "", suffix = "" } = m.format;
             return (
               <div className="metric" role="listitem" key={m.label}>
                 <div className="m-v num">
                   {prefix && <i>{prefix}</i>}
-                  <span data-count={m.value} data-dec={decimals || undefined}>
-                    {grouped(m.value, decimals)}
-                  </span>
+                  <Counter value={m.value} decimals={decimals} />
                   {suffix && <u>{suffix}</u>}
                 </div>
                 <div className="m-k">

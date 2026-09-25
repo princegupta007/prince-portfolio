@@ -9,7 +9,7 @@ import type { WiringNode } from "./types";
 export const WIRING_HEAD = {
   idx: "03·B",
   title: "How it's wired — anatomy of the work",
-  meta: "Select a node · ← → keys also move", // Phase 5 restores "or let it cycle"
+  meta: "Select a node · or let it cycle",
 } as const;
 
 export const WIRING_INTRO =
@@ -146,6 +146,8 @@ export const WIRING_NODES: WiringNode[] = [
   },
 ];
 
-/** Panel hint — Phase 4 is always manual (no auto-cycle until Phase 5). */
-export const WIRING_HINT =
+/** Panel hints — auto while cycling, manual after the visitor takes control. */
+export const WIRING_HINT_AUTO =
+  "Auto-cycling — select any node to take control" as const;
+export const WIRING_HINT_MANUAL =
   "Manual mode — ← → keys also move between nodes" as const;

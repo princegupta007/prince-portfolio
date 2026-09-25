@@ -1,4 +1,5 @@
 import { Icon } from "@/components/ui/Icon";
+import type { CSSProperties } from "react";
 import { SectionHead } from "@/components/ui/Primitives";
 import { RoleLens } from "@/components/interactive/RoleLens";
 import { parseRich } from "@/lib/rich";
@@ -24,7 +25,9 @@ export function Exhibit() {
           meta={EXHIBIT_HEAD.meta}
           hId="ex-h"
         />
-        <p className="sec-lede">{parseRich(EXHIBIT_INTRO)}</p>
+        <p className="sec-lede reveal" style={{ "--d": "80ms" } as CSSProperties}>
+          {parseRich(EXHIBIT_INTRO)}
+        </p>
         <RoleLens />
         <p className="exhibit-note">
           <Icon name="info" size={14} />
