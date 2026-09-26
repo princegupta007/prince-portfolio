@@ -86,3 +86,36 @@ screenshot of agent/scratch/og-template.html (no new deps; scratch gitignored, P
 HEAD 403/405/999 = host alive but bot-gated (LinkedIn) → treated as reachable with a log
 note; true 4xx/5xx fail. External hosts allow-list: github + linkedin only; mailto/tel
 verified verbatim; target=_blank must carry noopener.
+
+### D34 · Island code-splitting evaluated & rejected (phase-09)
+next/dynamic {ssr:true} on RoleLens/WiringDiagram/HeroCanvas produced ZERO first-load
+reduction: App Router emits dynamic chunks in the initial <script> set (preload for
+hydration). Measured 184.47 KB gz identical pre/post. Reverted per bundle rule
+("only if measurable reduction"); islands stay direct imports.
+
+### D35 · First-load budget recalibrated vs plan §5 (phase-09)
+Plan's 70 KB gz first-load predates Next 16 App Router: framework floor measures
+126.6 KB gz (react-dom 69.79 + next 45.93 + turbopack runtime 3.75 + main-app 7.13)
+with zero app code. Budget.json now firstLoad 190 KB gz / resources script 200 KB
+(measured 184.47/189.88 + headroom); bundle-check guards regressions. Plan-target
+conflict filed for phase-13 exceptions.md (owner sign-off item).
+
+### D36 · Animation efficiency rulings (phase-09)
+`.btn` will-change:transform removed (allow-list = canvas/chips only; magnetic JS sets
+transform per-frame without it). ScrollProgress keeps `transition: height` — the bar is a
+position:fixed 1.5px-wide own-composited layer; height writes repaint only that layer, no
+document layout. All other transitions/keyframes use transform/opacity; zero unused
+keyframes; fonts = 3 self-hosted families, latin subset only.
+
+### D37 · Hero canvas deferred to post-hydration (phase-09)
+HeroCanvas moved behind a client wrapper with next/dynamic {ssr:false}: TBT 379→294ms
+lab mobile. Trade-off: no-JS visitors lose the decorative static canvas frame (motion
+layer only — all content/sections intact, SR description still server-rendered).
+Accepted: decoration ≠ content; documented for phase-13 no-JS audit note.
+
+### D38 · Lab-vs-prod Lighthouse caveat (phase-09)
+Sandbox lab (shared VM, no CDN, `next start`) is TTFB-bound: server-response-time ≈3s
+dominates LCP (3.4s) on desktop AND mobile; app-side signals are clean (CLS 0,
+a11y/BP/SEO 100, TBT reduced via D37). Absolute perf scores here (84-85) are an
+environment artifact; production verification on Vercel edge in Phase 12 is binding.
+Exception filed for phase-13 exceptions.md.

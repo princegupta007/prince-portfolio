@@ -1,0 +1,8 @@
+{
+  "firstLoadKbGz": 190,
+  "resourceSizesKb": {
+    "script": 200,
+    "total": 350
+  },
+  "notes": "Plan \u00a75 listed 70 KB gz first-load; measured Next 16 App Router framework floor alone is 126.6 KB gz (react-dom 69.8 + next 45.9 + runtime 10.9) before any app code \u2014 target unreachable on the approved stack (D35, phase-13 exception). Budget set to measured 184.5 + headroom; bundle-check fails on regression, not on the legacy number."
+}

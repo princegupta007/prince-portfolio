@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { cookies } from "next/headers";
 import { Bricolage_Grotesque, Inter, JetBrains_Mono } from "next/font/google";
@@ -78,6 +78,9 @@ export const metadata: Metadata = {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
     apple: [{ url: "/og.png" }],
   },
+};
+
+export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: dark)", color: "#0a0b0d" },
     { media: "(prefers-color-scheme: light)", color: "#f5f4ed" },
