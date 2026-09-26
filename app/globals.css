@@ -3032,24 +3032,34 @@ body::after {
   letter-spacing: -0.01em;
 }
 .tl-right {
+  /* The rail and each timeline marker share this coordinate system. Keeping
+     the values together prevents the marker from drifting when its content
+     gutter and vertical rhythm compress at the mobile breakpoint. */
+  --tl-rail-left: 8px;
+  --tl-rail-width: 1.5px;
+  --tl-rail-radius: 0.75px;
+  --tl-content-inset: 38px;
+  --tl-marker-radius: 7.5px;
+  --tl-marker-top: 38px;
   position: relative;
-  padding-left: 38px;
+  min-width: 0;
+  padding-left: var(--tl-content-inset);
 }
 .tl-right::before {
   content: "";
   position: absolute;
-  left: 8px;
+  left: var(--tl-rail-left);
   top: 8px;
   bottom: 8px;
-  width: 1.5px;
+  width: var(--tl-rail-width);
   background: var(--line);
   border-radius: 2px;
 }
 #tlFill {
   position: absolute;
-  left: 8px;
+  left: var(--tl-rail-left);
   top: 8px;
-  width: 1.5px;
+  width: var(--tl-rail-width);
   height: 0;
   background: linear-gradient(180deg, var(--accent), var(--accent-2));
   border-radius: 2px;
@@ -3059,6 +3069,7 @@ body::after {
 }
 .role {
   position: relative;
+  min-width: 0;
   padding: 30px 0 42px;
   border-bottom: 1px solid var(--line);
 }
@@ -3069,8 +3080,14 @@ body::after {
 .role::before {
   content: "";
   position: absolute;
-  left: -34px;
-  top: 38px;
+  /* Centre the 15px outer marker on the 1.5px rail, independent of the
+     content inset. The former hard-coded offsets were 2.75px off on desktop
+     and 6.75px off after the mobile gutter changed. */
+  left: calc(
+    var(--tl-rail-left) - var(--tl-content-inset) - var(--tl-marker-radius) +
+      var(--tl-rail-radius)
+  );
+  top: var(--tl-marker-top);
   width: 11px;
   height: 11px;
   border-radius: 99px;
@@ -3568,7 +3585,7 @@ body::after {
 .ct-grid {
   position: relative;
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
   gap: clamp(40px, 6vw, 84px);
   align-items: end;
 }
@@ -3577,6 +3594,13 @@ body::after {
   font-weight: 800;
   letter-spacing: -0.035em;
   line-height: 0.98;
+}
+/* The line-mask is deliberately clipped for its reveal transition. Give the
+   stroked display glyphs a small bleed area so their outer contours — notably
+   the E-shaped joins in Bricolage — are never cut at a line boundary. */
+.ct-h.lines .ln {
+  padding: 4px;
+  margin: -2px -4px;
 }
 .ct-h .outline {
   paint-order: stroke fill;
@@ -3596,13 +3620,17 @@ body::after {
 }
 .mailto-big {
   display: inline-block;
+  max-width: 100%;
   margin-top: 34px;
   font-family: var(--display);
   font-weight: 700;
   font-size: clamp(1.05rem, 3.1vw, 2.05rem);
   letter-spacing: -0.015em;
   color: var(--ink);
-  word-break: break-all;
+  /* Prefer natural email break points (the @ and dot) over splitting a
+     glyph mid-letter; overflow-wrap remains available at the narrowest size. */
+  word-break: normal;
+  overflow-wrap: anywhere;
   background: linear-gradient(var(--accent), var(--accent)) no-repeat 0 86%/0%
     38%;
   transition: background-size 0.55s var(--ease);
@@ -3616,6 +3644,7 @@ body::after {
   color: var(--accent-fg);
 }
 .ct-card {
+  min-width: 0;
   border: 1px solid var(--line);
   border-radius: var(--r-xl);
   background: linear-gradient(180deg, var(--panel), var(--panel-2));
@@ -3995,14 +4024,9 @@ a.crow:has(.copy-hint):hover .v {
     gap: 9px;
   }
   .tl-right {
-    padding-left: 30px;
-  }
-  .role::before {
-    left: -26px;
-  }
-  .tl-right::before,
-  #tlFill {
-    left: 4px;
+    --tl-rail-left: 4px;
+    --tl-content-inset: 30px;
+    --tl-marker-top: 34px;
   }
   .foot {
     grid-template-columns: 1fr;
@@ -4633,29 +4657,36 @@ button.crow {
 
 /* ── owner add-on: portrait ID badge (gated by PORTRAIT_SRC) ── */
 .ct-id {
-  display: flex;
+  display: grid;
+  grid-template-columns: clamp(3.5rem, 6vw, 4rem) minmax(0, 1fr);
   align-items: center;
   gap: 14px;
   padding: 16px 22px;
   border-bottom: 1px solid var(--line);
 }
 .ct-id-btn {
-  background: none;
-  border: 0;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--panel-2);
+  border: 1px solid var(--accent-line);
   padding: 0;
   margin: 0;
-  flex: none;
   border-radius: 12px;
   cursor: zoom-in;
   line-height: 0;
-  transition: box-shadow 0.35s, transform 0.35s var(--ease);
+  touch-action: manipulation;
+  transition:
+    box-shadow 0.35s,
+    transform 0.35s var(--ease);
 }
 .ct-id-btn img {
-  width: 46px;
-  height: 46px;
-  border-radius: 12px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border: 1px solid var(--accent-line);
+  /* Holds the face in the upper third for portrait crops while preserving
+     the authored square photo exactly at the current source dimensions. */
+  object-position: 50% 32%;
   display: block;
   transition: transform 0.45s var(--ease);
 }
@@ -4668,12 +4699,16 @@ button.crow {
 .ct-id-btn:focus-visible img {
   transform: scale(1.07);
 }
+.ct-id-txt {
+  min-width: 0;
+}
 .ct-id b {
   display: block;
   font-family: var(--display);
   font-weight: 700;
   font-size: 0.98rem;
   letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
 }
 .ct-id small {
   display: block;
@@ -4682,7 +4717,20 @@ button.crow {
   font-size: 0.62rem;
   letter-spacing: 0.08em;
   color: var(--ink-3);
+  overflow-wrap: anywhere;
   text-transform: uppercase;
+}
+
+@media (max-width: 420px) {
+  .ct-id {
+    grid-template-columns: 3.25rem minmax(0, 1fr);
+    gap: 12px;
+    padding: 14px 16px;
+  }
+  .ct-id small {
+    font-size: 0.58rem;
+    letter-spacing: 0.055em;
+  }
 }
 .lb[hidden] {
   display: none;
