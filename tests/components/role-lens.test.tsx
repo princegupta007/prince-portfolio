@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { RoleLens } from "@/components/interactive/RoleLens";
@@ -11,7 +12,8 @@ describe("RoleLens", () => {
     );
     expect(tabs.length).toBeGreaterThanOrEqual(EXHIBIT_ROLES.length);
     const active = screen.getAllByRole("button", { pressed: true });
-    expect(active[0].getAttribute("data-role")).toBe("super");
+    expect(active).toHaveLength(1);
+    expect(active.at(0)?.getAttribute("data-role")).toBe("super");
   });
 
   it("switching role moves aria-pressed and updates the matrix", () => {
