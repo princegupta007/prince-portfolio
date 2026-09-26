@@ -141,3 +141,7 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# --- Agent workspace (Antigravity/Arena) — ephemeral, never imported by app code ---
+agent/artifacts/
+agent/scratch/
