@@ -37,19 +37,17 @@ jobs:
       - name: Content policy (no project names)
         run: pnpm exec tsx agent/tools/content-scan.ts
 
-      - name: Agent link check
-        run: pnpm exec tsx agent/tools/link-check.ts
-
       - name: Production build
         run: pnpm build
 
       - name: Bundle budget gate
         run: pnpm exec tsx agent/tools/bundle-check.ts
 
-      - name: E2E (served build)
+      - name: Link and E2E checks (served build)
         run: |
-          (pnpm exec next start -p 3100 &) 
+          (pnpm exec next start -p 3100 &)
           sleep 4
+          pnpm exec tsx agent/tools/link-check.ts
           pnpm exec tsx tests/e2e/seo.spec.ts
           pnpm exec tsx tests/e2e/smoke.spec.ts
           pnpm exec tsx tests/e2e/responsive.spec.ts
