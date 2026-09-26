@@ -7,6 +7,11 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { NavProvider } from "@/components/interactive/NavProvider";
+import { InteractionLayer } from "@/components/interactive/InteractionLayer";
+import { PaletteHost } from "@/components/interactive/PaletteHost";
+import { Preloader } from "@/components/interactive/Preloader";
+import { Reveal } from "@/components/interactive/Reveal";
+import { TimelineFill } from "@/components/interactive/TimelineFill";
 import { ToastProvider } from "@/components/ui/Toast";
 import { THEME_COOKIE } from "@/lib/constants";
 import "./globals.css";
@@ -33,6 +38,15 @@ const mono = JetBrains_Mono({
 });
 
 // Interim metadata — full SEO set (canonical/OG/Twitter/JSON-LD) lands in Phase 8.
+/**
+ * Pre-paint boot script (Phase 5, D19): marks <html> with `js` so the
+ * reveal/line-mask hidden states can be JS-gated (no-JS visitors always see
+ * complete content), and with `pg-pre` ONLY on the first view of a session —
+ * the CSS hides #loader unless that class is present, so revisits and no-JS
+ * loads never see the curtain. sessionStorage is wrapped for private mode.
+ */
+const BOOT_SCRIPT = `(function(){var d=document.documentElement;d.className+=" js";try{if(!sessionStorage.getItem("pg-seen")){d.className+=" pg-pre";sessionStorage.setItem("pg-seen","1")}}catch(e){}})();`;
+
 export const metadata: Metadata = {
   title: "Prince Gupta — Frontend Engineer",
   description:
@@ -53,8 +67,14 @@ export default async function RootLayout({
       lang="en"
       data-theme={theme}
       className={`${display.variable} ${sans.variable} ${mono.variable} h-full antialiased`}
+      // the boot script mutates <html> class before hydration (next-themes pattern)
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: BOOT_SCRIPT }} />
+      </head>
       <body className="min-h-full">
+        <Preloader />
         <ScrollProgress />
         <a className="skip" href="#main">
           Skip to content
@@ -66,7 +86,11 @@ export default async function RootLayout({
             <main id="main">{children}</main>
             <Footer />
           </NavProvider>
+          <PaletteHost />
         </ToastProvider>
+        <Reveal />
+        <InteractionLayer />
+        <TimelineFill />
       </body>
     </html>
   );

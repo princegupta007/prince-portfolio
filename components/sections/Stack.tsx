@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { Chip, SectionHead } from "@/components/ui/Primitives";
 import { STACK_GROUPS, STACK_HEAD } from "@/content/stack";
 
@@ -16,8 +17,12 @@ export function Stack() {
           hId="st-h"
         />
         <div className="stack-grid">
-          {STACK_GROUPS.map((g) => (
-            <div className="stack-card" key={g.title}>
+          {STACK_GROUPS.map((g, gi) => (
+            <div
+              className="stack-card reveal"
+              style={{ "--d": `${(gi % 3) * 70}ms` } as CSSProperties}
+              key={g.title}
+            >
               <div className="st-lbl">
                 <i aria-hidden="true" />
                 <span>{g.title}</span>

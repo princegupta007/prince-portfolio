@@ -1,4 +1,5 @@
 import { Icon } from "@/components/ui/Icon";
+import { RoleVisual } from "@/components/interactive/RoleVisual";
 import { SectionHead } from "@/components/ui/Primitives";
 import { Wiring } from "@/components/sections/Wiring";
 import { CV_PATH } from "@/lib/constants";
@@ -7,8 +8,8 @@ import {
   EXPERTISE_HEAD,
   EXPERTISE_INTRO,
   EXPERTISE_TILES,
-  FEATURE_ROLES,
 } from "@/content/expertise";
+import type { CSSProperties } from "react";
 import { cn } from "@/lib/cn";
 
 /**
@@ -17,6 +18,9 @@ import { cn } from "@/lib/cn";
  * wiring schematic is part of this section in the prototype (#wiring is a
  * div inside section#expertise) — rendered via <Wiring /> at the end.
  */
+
+/** Prototype reveal delays per tile position (b-feat, thirds ×4, halves ×2). */
+const TILE_DELAYS = [0, 80, 0, 80, 160, 0, 80];
 
 const SPAN_CLASS = {
   wide: "b-feat",
@@ -34,7 +38,7 @@ export function Expertise() {
           meta={EXPERTISE_HEAD.meta}
           hId="exp-h"
         />
-        <p className="sec-lede">
+        <p className="sec-lede reveal" style={{ "--d": "80ms" } as CSSProperties}>
           {parseRich(EXPERTISE_INTRO.lead)} {EXPERTISE_INTRO.cvLine.before}
           <a href={CV_PATH} download>
             {EXPERTISE_INTRO.cvLine.link}
@@ -42,8 +46,12 @@ export function Expertise() {
           {EXPERTISE_INTRO.cvLine.after}
         </p>
         <div className="bento">
-          {EXPERTISE_TILES.map((t) => (
-            <article className={cn("card", SPAN_CLASS[t.span])} key={t.code}>
+          {EXPERTISE_TILES.map((t, ti) => (
+            <article
+              className={cn("card", SPAN_CLASS[t.span], "reveal")}
+              style={{ "--d": `${TILE_DELAYS[ti] ?? 0}ms` } as CSSProperties}
+              key={t.code}
+            >
               <div className="b-top">
                 <span className="b-ico">
                   <Icon name={t.ic} size={21} strokeWidth={1.7} />
@@ -65,14 +73,7 @@ export function Expertise() {
                       ))}
                     </div>
                   </div>
-                  <div className="roles-vis" id="rolesVis">
-                    {FEATURE_ROLES.map((r) => (
-                      <div className="rv-cell lit" key={r.label}>
-                        <b>{r.label}</b>
-                        <small>{r.note}</small>
-                      </div>
-                    ))}
-                  </div>
+                  <RoleVisual />
                 </div>
               ) : (
                 <>

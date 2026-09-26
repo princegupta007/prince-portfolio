@@ -36,3 +36,19 @@ export const RAIL_ITEMS: NavItem[] = [
 
 /** Scrollspy target order (module-level constant → stable hook dependency). */
 export const SECTION_IDS: string[] = RAIL_ITEMS.map((i) => i.id);
+
+/**
+ * ⌘K palette navigate entries — prototype CMDS labels verbatim
+ * (group renders as "NN · navigate").
+ */
+export const PALETTE_NAV: NavItem[] = [
+  { num: "01", id: "hero", label: "Hero — intro" },
+  { num: "02", id: "numbers", label: "In numbers — impact metrics" },
+  { num: "03", id: "expertise", label: "What I build — expertise" },
+  { num: "04", id: "exhibit", label: "Access control exhibit — live specimen" },
+  { num: "05", id: "experience", label: "Experience — timeline" },
+  { num: "06", id: "principles", label: "How I work — principles" },
+  { num: "07", id: "stack", label: "The toolbox — stack" },
+  { num: "08", id: "background", label: "Background — education" },
+  { num: "09", id: "contact", label: "Contact — let's talk" },
+];

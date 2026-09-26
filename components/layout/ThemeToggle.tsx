@@ -13,6 +13,7 @@ export function ThemeToggle({ initial }: { initial: Theme }) {
   return (
     <button
       type="button"
+      id="themeBtn"
       className="icon-btn"
       aria-label="Switch colour theme"
       title="Switch theme"

@@ -92,7 +92,7 @@ export function SectionHead({
 }) {
   const lines = titleLines ?? (title ? [title] : []);
   return (
-    <div className={cn("sec-head", className)}>
+    <div className={cn("sec-head", "reveal", className)}>
       <span className="idx" aria-hidden="true">
         {idx}
       </span>
