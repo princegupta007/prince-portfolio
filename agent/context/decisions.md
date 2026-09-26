@@ -26,3 +26,29 @@ Format: `D# · date · decision · rationale · source`.
 - **D22 · 2026-09-26 · Toast stays the single context provider (rule 40):** Phase 5 adds enter/exit animation via `.toast.on` (opacity/transform transition, mount→rAF→on, unmount delayed past the exit) instead of a new event bus; `CopyButton`/palette/`ThemeToggle` all call `useToast().show`. Source: rule 40 (one aria-live region).
 - **D23 · 2026-09-26 · Audit console now APPENDS with 150ms stagger, trimmed to the last 7 lines (prototype pushAudit); lines carry stable ids** (SSR block fixed 0–2, client sequence from 100) so the trim-from-front never re-triggers the `audIn` animation via index-key shifts. Boot replays once on mount (timestamps-on-load), replacing the SSR preview block inside the first stagger timer (React-19 lint: no sync setState in effect bodies). Source: prototype pushAudit JS.
 - **D24 · 2026-09-26 · Phase-5 JS delta +5.13 KB gz** (178.89 → 184.02 KB gz initial scripts) — inside the ≤ +12 KB budget; the palette chunk is excluded by design (D2) and its lazy fetch on first ⌘K is asserted in check-phase05. New islands: Preloader, Reveal, InteractionLayer, HeroFx, ScrambleWord, Counter, RoleVisual, TimelineFill, PaletteHost(+lazy CommandPalette). Source: this phase, measured via SSR script tags.
+
+### D25 · Visual-grid harness + triple assertion (phase-06)
+Responsive verification is automated via `agent/tools/screenshot-grid.ts` (script
+`agent:screenshot-grid`): 2 themes × 11 widths, full-page + section clips + `overflow.json`.
+Three assertion classes: (1) document scrollWidth overflow, (2) fixed layers escaping the
+viewport, (3) **clipped** elements wider than the viewport outside approved scrollers
+(`.role-tabs`, `.mock-side`, `.cmd-list`) / marquee — added after F-01 proved `overflow:hidden`
+parents hide clipping from scrollWidth. Playwright added as a devDependency: test/verification
+only, zero runtime JS/CSS impact (bundle budget unaffected).
+
+### D26 · Canvas nav: wrap, don't scroll (phase-06)
+The prototype's ≤760 `.cv-side` row scroller conflicts with the phase restriction (two approved
+scrollers only). Replaced with a 4×2 wrapped grid (`repeat(4, minmax(0,1fr))`, `gap:6px`,
+`.nav-skel{min-width:0}` to drop the scroller-era 96px floor). All eight skeletons stay visible
+at every width; no new scroll axis introduced.
+
+### D27 · Hero P0 fix via flex-wrap, not ellipsis-only (phase-06)
+`.cv-chrome`'s nowrap intrinsic min-content (419px) stretched the hero track at ≤414. Ellipsis +
+`min-width:0` fix used width but not intrinsic size; the row now wraps at ≤640
+(`flex-wrap:wrap`) alongside global `min-width:0`/ellipsis and ≤640 row compression. Documented
+in findings F-01.
+
+### D28 · Coarse-pointer & keyboard parity (phase-06)
+`@media (pointer:coarse)` enforces ≥44px interactive targets (menu links, role tabs, work rows,
+palette options, icon buttons, burger, kbd chips). Copy hints gain `:focus-visible`/`:focus-within`
+parity. Approved scrollers get thin scrollbars + edge-fade masks as scroll affordances.

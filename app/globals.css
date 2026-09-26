@@ -4256,6 +4256,132 @@ body.loading {
   pointer-events: auto;
 }
 
+/* ════════════════════════════════════════════════════════════════════
+   PHASE 6 · RESPONSIVE REFINEMENTS — matrix gaps + affordances
+   (breakpoint tokens only; adapt, never reinvent)
+   ════════════════════════════════════════════════════════════════════ */
+
+/* P0: canvas chrome min-content stretched the hero track to ~421px at
+   ≤414 viewports (clipped by .hero overflow). Let the specimen URL
+   truncate instead — dots + role pill stay readable. */
+.cv-chrome {
+  min-width: 0;
+}
+.cv-url {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* canvas nav skeletons: the prototype turns .cv-side into a row scroller
+   ≤760, but phase-06 restrictions approve only two scrollers (role tabs,
+   mock sidebar). Wrap into a 4×2 grid instead — every skeleton stays
+   visible, zero scroll (D26). */
+@media (max-width: 760px) {
+  .cv-side {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+    overflow: visible;
+  }
+  .cv-side .nav-skel {
+    min-width: 0; /* drop the scroller-era 96px floor (D26) */
+  }
+}
+
+/* horizontal scrollers: thin scrollbar + right edge-fade affordance
+   (role tabs <1080, mock sidebar ≤760 — the two approved scrollers) */
+@media (max-width: 1080px) {
+  .role-tabs {
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+  }
+}
+@media (max-width: 760px) {
+  .mock-side {
+    scrollbar-width: thin;
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+  }
+}
+
+/* hover-only affordance → keyboard/touch parity */
+a.crow:focus-visible .copy-hint,
+a.crow:focus-within .copy-hint {
+  opacity: 1;
+}
+
+/* touch ergonomics — ≥44px targets on coarse pointers */
+@media (pointer: coarse) {
+  .menu a,
+  .role-tab,
+  a.crow,
+  .cmd-list li[role="option"] button,
+  .icon-btn,
+  .burger,
+  .kbd-btn {
+    min-height: 44px;
+  }
+  .icon-btn,
+  .burger {
+    min-width: 44px;
+  }
+  .menu a {
+    display: flex;
+    align-items: center;
+  }
+  .cmd-list li[role="option"] button {
+    padding-block: 12px;
+  }
+}
+
+/* canvas internals compress at xs (prototype stacks cv-body at ≤760;
+   rows/foot keep every datum, just tighter) */
+@media (max-width: 640px) {
+  .cv-chrome {
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
+  .cv-row {
+    gap: 8px;
+  }
+  .cv-st,
+  .cv-contact {
+    font-size: 0.55rem;
+    letter-spacing: 0.02em;
+  }
+  .cv-cellbar {
+    min-width: 18px;
+  }
+  .cv-foot {
+    gap: 10px;
+    font-size: 0.55rem;
+  }
+}
+
+/* section-head meta lines wrap + relax at xs instead of overflowing */
+@media (max-width: 420px) {
+  .sec-head .meta,
+  .wire-head .meta {
+    white-space: normal;
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+  }
+}
+
+/* mono label letter-spacing relaxation at xs */
+@media (max-width: 420px) {
+  .kicker {
+    letter-spacing: 0.18em;
+  }
+  .pill {
+    letter-spacing: 0.06em;
+  }
+  .m-k {
+    letter-spacing: 0.08em;
+  }
+}
+
 /* ── reduced motion (Phase 5 additions — prototype parity; placed last so
    these overrides win over the .js-gated rules by source order) ── */
 @media (prefers-reduced-motion: reduce) {
