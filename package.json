@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit",
     "agent:content-scan": "tsx agent/tools/content-scan.ts",
     "agent:screenshot-grid": "tsx agent/tools/screenshot-grid.ts",
-    "agent:link-check": "echo \"[agent] link-check lands in Phase 8\" && exit 0",
+    "agent:link-check": "tsx agent/tools/link-check.ts",
     "agent:bundle-check": "echo \"[agent] bundle-check lands in Phase 9\" && exit 0",
     "agent:secret-scan": "echo \"[agent] secret-scan lands in Phase 10\" && exit 0",
     "test": "vitest run",

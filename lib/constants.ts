@@ -4,8 +4,16 @@
  * Do NOT add client/project names — see agent/rules/10-content-policy.md.
  */
 
-/** Canonical origin. Empty locally; Phase 8 metadata falls back to VERCEL_URL on previews. */
-export const SITE_URL: string = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+/**
+ * Canonical origin (Phase 8, D32): owner-set NEXT_PUBLIC_SITE_URL in production;
+ * Vercel preview hosts fall back to their own URL so previews never leak the
+ * production canonical; local builds use the documented placeholder.
+ */
+export const SITE_ORIGIN: string =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://princegupta.dev");
+/** @deprecated use SITE_ORIGIN */
+export const SITE_URL: string = SITE_ORIGIN;
 
 export const CONTACT = {
   name: "Prince Gupta",

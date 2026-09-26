@@ -75,3 +75,14 @@ keeps native dialog trap. `tests/e2e/` specs run via `pnpm test:e2e [filter]` th
 (run.ts) — no @playwright/test runner dependency added; @axe-core/playwright is the only
 new devDep. Reduced-motion kill-list extended: mq-track, canvas .scan, w-bus i, wp-body
 anim, audit ln.
+
+### D32 · Canonical origin resolution (phase-08)
+SITE_ORIGIN = NEXT_PUBLIC_SITE_URL → VERCEL_URL (previews canonicalise to their own
+host, no prod leak) → placeholder https://princegupta.dev (local). metadataBase,
+canonical, sitemap and OG all derive from it. OG image generated once via Playwright
+screenshot of agent/scratch/og-template.html (no new deps; scratch gitignored, PNG committed).
+
+### D33 · Link reachability semantics (phase-08)
+HEAD 403/405/999 = host alive but bot-gated (LinkedIn) → treated as reachable with a log
+note; true 4xx/5xx fail. External hosts allow-list: github + linkedin only; mailto/tel
+verified verbatim; target=_blank must carry noopener.
