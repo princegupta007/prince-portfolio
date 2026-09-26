@@ -40,13 +40,11 @@ jobs:
       - name: Production build
         run: pnpm build
 
-      - name: Bundle budget gate
-        run: pnpm exec tsx agent/tools/bundle-check.ts
-
-      - name: Link and E2E checks (served build)
+      - name: Bundle, link and E2E checks (served build)
         run: |
           (pnpm exec next start -p 3100 &)
           sleep 4
+          pnpm exec tsx agent/tools/bundle-check.ts
           pnpm exec tsx agent/tools/link-check.ts
           pnpm exec tsx tests/e2e/seo.spec.ts
           pnpm exec tsx tests/e2e/smoke.spec.ts
