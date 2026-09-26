@@ -4,9 +4,12 @@ import { useEffect } from "react";
 import { isReduced } from "@/hooks/useReducedMotion";
 
 /**
- * Experience rail fill — lime line grows with scroll through .tl-right
- * (prototype formula, rAF-throttled passive scroll). Reduced motion: the
- * fill stays at full height so the timeline reads complete and static.
+ * Experience rail fill — lime line grows with scroll through .tl-right.
+ *
+ * The visual rail has an 8px cap at either end. Keep the fill tied to the
+ * measured rail height rather than a one-time viewport measurement: font
+ * loading, wrapped role copy, and responsive column changes can all alter the
+ * timeline after hydration. The scroll handler remains rAF-throttled.
  */
 export function TimelineFill() {
   useEffect(() => {
@@ -14,30 +17,49 @@ export function TimelineFill() {
     const fill = document.getElementById("tlFill");
     if (!rail || !fill) return;
 
-    if (isReduced()) {
-      fill.style.height = `${rail.getBoundingClientRect().height - 16}px`;
-      return;
+    const cap = 16;
+    const reduced = isReduced();
+    let frame = 0;
+
+    const usableHeight = () =>
+      Math.max(0, rail.getBoundingClientRect().height - cap);
+    const paint = () => {
+      frame = 0;
+      const bounds = rail.getBoundingClientRect();
+      const progress = reduced
+        ? 1
+        : Math.max(
+            0,
+            Math.min(
+              1,
+              (window.innerHeight * 0.55 - bounds.top) / (bounds.height || 1),
+            ),
+          );
+      fill.style.height = `${progress * usableHeight()}px`;
+    };
+    const requestPaint = () => {
+      if (!frame) frame = window.requestAnimationFrame(paint);
+    };
+
+    const resizeObserver = new ResizeObserver(requestPaint);
+    resizeObserver.observe(rail);
+    document.fonts?.ready.then(requestPaint).catch(() => undefined);
+    requestPaint();
+
+    if (reduced) {
+      return () => {
+        resizeObserver.disconnect();
+        if (frame) window.cancelAnimationFrame(frame);
+      };
     }
 
-    let ticking = false;
-    const paint = () => {
-      const r = rail.getBoundingClientRect();
-      const p = Math.max(0, Math.min(1, (window.innerHeight * 0.55 - r.top) / (r.height || 1)));
-      fill.style.height = `${p * (r.height - 16)}px`;
-      ticking = false;
-    };
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(paint);
-      }
-    };
-    paint();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
+    window.addEventListener("scroll", requestPaint, { passive: true });
+    window.addEventListener("resize", requestPaint, { passive: true });
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
+      resizeObserver.disconnect();
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", requestPaint);
+      window.removeEventListener("resize", requestPaint);
     };
   }, []);
   return null;

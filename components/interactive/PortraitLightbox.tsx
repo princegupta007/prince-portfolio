@@ -49,7 +49,6 @@ export default function PortraitLightbox({
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mounted]);
 
   useEffect(() => () => {
@@ -68,8 +67,15 @@ export default function PortraitLightbox({
         aria-label={`View profile photo of ${name}`}
         onClick={show}
       >
-        {/* fixed dimensions → CLS 0 */}
-        <img src={src} alt={`Portrait of ${name}`} width={46} height={46} />
+        {/* The square intrinsic box matches the responsive CSS crop → CLS 0. */}
+        <img
+          src={src}
+          alt={`Portrait of ${name}`}
+          width={64}
+          height={64}
+          loading="lazy"
+          decoding="async"
+        />
       </button>
 
       <div
