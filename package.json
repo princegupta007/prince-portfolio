@@ -16,7 +16,7 @@
     "agent:bundle-check": "tsx agent/tools/bundle-check.ts",
     "agent:secret-scan": "echo \"[agent] secret-scan lands in Phase 10\" && exit 0",
     "test": "vitest run",
-    "test:e2e": "tsx tests/e2e/run.ts",
+    "test:e2e": "tsx tests/e2e/seo.spec.ts && tsx tests/e2e/smoke.spec.ts && tsx tests/e2e/responsive.spec.ts",
     "agent:smoke": "tsx agent/tools/smoke-prod.ts"
   },
   "dependencies": {
@@ -27,11 +27,14 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
     "@tailwindcss/postcss": "^4",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/react": "^16.3.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.6",
+    "jsdom": "^30.1.1",
     "playwright": "^1.63.0",
     "prettier": "^3.9.9",
     "prettier-plugin-tailwindcss": "^0.8.1",
