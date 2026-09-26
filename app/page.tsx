@@ -7,6 +7,9 @@ import { Principles } from "@/components/sections/Principles";
 import { Stack } from "@/components/sections/Stack";
 import { Background } from "@/components/sections/Background";
 import { Contact } from "@/components/sections/Contact";
+import { Reveal } from "@/components/interactive/Reveal";
+import { InteractionLayer } from "@/components/interactive/InteractionLayer";
+import { TimelineFill } from "@/components/interactive/TimelineFill";
 
 /**
  * Single-page composition — 01 Hero → 09 Contact (03·B Wiring renders inside
@@ -28,6 +31,9 @@ export default function Home() {
       <Stack />
       <Background />
       <Contact />
+      <Reveal />
+      <InteractionLayer />
+      <TimelineFill />
     </>
   );
 }
