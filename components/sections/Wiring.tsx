@@ -1,4 +1,5 @@
 import { WiringDiagram } from "@/components/interactive/WiringDiagram";
+import { IslandBoundary } from "@/components/interactive/IslandBoundary";
 import { parseRich } from "@/lib/rich";
 import { WIRING_HEAD, WIRING_INTRO } from "@/content/wiring";
 
@@ -20,7 +21,22 @@ export function Wiring() {
         <span className="meta">{WIRING_HEAD.meta}</span>
       </div>
       <p className="wire-lede">{parseRich(WIRING_INTRO, "em")}</p>
-      <WiringDiagram />
+      <IslandBoundary
+        label="wiring"
+        fallback={
+          <div className="island-static" aria-label="Request anatomy (static view)">
+            <p className="mono">REQUEST ANATOMY (STATIC)</p>
+            <ul role="list">
+              <li>01 · UI action → optimistic update</li>
+              <li>02 · Server-authoritative check (RBAC)</li>
+              <li>03 · Persist + broadcast (WebSocket)</li>
+              <li>04 · UI reconciles to server truth</li>
+            </ul>
+          </div>
+        }
+      >
+        <WiringDiagram />
+      </IslandBoundary>
     </div>
   );
 }

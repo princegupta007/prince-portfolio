@@ -1,3 +1,5 @@
+export {};
+
 /**
  * Phase 08 · link integrity tool.
  *  1. internal anchors: every href="#…" in the served HTML resolves to an id

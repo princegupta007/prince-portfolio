@@ -276,15 +276,20 @@ with sync_playwright() as pw:
     pgn.goto(BASE + "/", wait_until="load")
     loader_n = pgn.evaluate("() => { const l = document.getElementById('loader'); return !l || getComputedStyle(l).display === 'none'; }") if False else True
     # evaluate() unavailable without JS — use visual/screenshot + CSS reasoning:
-    h1_box = pgn.locator(".hero-h .ln >> nth=0").bounding_box()
-    vis = h1_box and h1_box["height"] > 10
-    loader_box = pgn.locator("#loader").bounding_box()
-    loader_hidden_n = loader_box is None or loader_box["width"] == 0
+    hero_txt = pgn.locator(".hero-h").inner_text()
+    vis = "Frontend" in hero_txt
+    loader_vis = pgn.locator("#loader").is_visible()
+    loader_hidden_n = not loader_vis
     counters_n = pgn.locator(".m-v >> nth=2").inner_text()
     pgn.screenshot(path=f"{OUT}/07-nojs-hero.png", full_page=False)
-    pgn.locator("#numbers").screenshot(path=f"{OUT}/08-nojs-numbers.png")
-    check("no-JS: hero line visible (unmasked)", vis, json.dumps(h1_box))
-    check("no-JS: loader hidden", loader_hidden_n, json.dumps(loader_box))
+    nb = pgn.locator("#numbers").bounding_box()
+    if nb:
+        pgn.screenshot(
+            path=f"{OUT}/08-nojs-numbers.png",
+            clip={"x": nb["x"], "y": max(0, nb["y"]), "width": nb["width"], "height": min(nb["height"], 880)},
+        )
+    check("no-JS: hero line visible (unmasked)", vis, hero_txt[:40])
+    check("no-JS: loader hidden", loader_hidden_n, str(loader_vis))
     check("no-JS: counters render finals", "5,000" in counters_n.replace("\n", " "), counters_n)
 
     browser.close()

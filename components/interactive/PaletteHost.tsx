@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import { IslandBoundary } from "@/components/interactive/IslandBoundary";
 
 /**
  * Palette host — the dialog chunk is fetched on FIRST invocation only
@@ -51,5 +52,9 @@ export function PaletteHost() {
   }, []);
 
   if (!loaded) return null;
-  return <CommandPalette open={open} onClose={() => setOpen(false)} />;
+  return (
+    <IslandBoundary label="palette" fallback={null}>
+      <CommandPalette open={open} onClose={() => setOpen(false)} />
+    </IslandBoundary>
+  );
 }
