@@ -27,8 +27,15 @@ const nextConfig: NextConfig = {
           { key: "X-Frame-Options", value: "DENY" },
           {
             key: "Content-Security-Policy",
+            // D39 + fix(console-hydration): production CSP stays strict —
+            // React never eval()s in production. The dev runtime legitimately
+            // needs unsafe-eval (component-stack reconstruction), so the dev
+            // CSP widens script-src only; shipping the strict policy to dev
+            // made React log "eval() is not supported" on every load.
             value:
-              "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+              "default-src 'self'; script-src 'self' 'unsafe-inline'" +
+              (process.env.NODE_ENV === "production" ? "" : " 'unsafe-eval'") +
+              "; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
           },
         ],
       },

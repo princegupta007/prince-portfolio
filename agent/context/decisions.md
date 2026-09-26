@@ -136,3 +136,13 @@ runtime crash → IslandBoundary static variants (exhibit matrix / wiring steps 
 frame / palette no-op) proven by temp drill then REMOVED from source · clipboard denial →
 textarea fallback + literal-value toast (tested with permissions=[]) · storage exceptions →
 try/catch since phase-5 · font failure → next/font fallback stack. No error SaaS (free tier).
+
+## D41 — dev-only CSP widening (fix/console-hydration)
+Production CSP (D39) is unchanged and strict. In development, React's runtime
+legitimately calls eval() (component-stack reconstruction); shipping the strict
+policy to dev produced "eval() is not supported" on every load, and the aborted
+hydration surfaced our post-mount DOM writes (reveal `.in`, #tlFill style) as
+hydration-mismatch diffs. Root fix: script-src gains 'unsafe-eval' ONLY when
+NODE_ENV !== production (next.config.ts). Verified: dev console clean under
+4-6x CPU throttle incl. scroll; prod header byte-identical to D39 policy.
+Gate: `pnpm agent:dev-console`.

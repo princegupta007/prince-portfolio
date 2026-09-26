@@ -17,7 +17,8 @@
     "agent:secret-scan": "echo \"[agent] secret-scan lands in Phase 10\" && exit 0",
     "test": "vitest run",
     "test:e2e": "tsx tests/e2e/seo.spec.ts && tsx tests/e2e/smoke.spec.ts && tsx tests/e2e/responsive.spec.ts",
-    "agent:smoke": "tsx agent/tools/smoke-prod.ts"
+    "agent:smoke": "tsx agent/tools/smoke-prod.ts",
+    "agent:dev-console": "tsx agent/tools/dev-console-check.ts"
   },
   "dependencies": {
     "next": "16.3.6",
