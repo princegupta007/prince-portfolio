@@ -10,7 +10,12 @@ describe("nav/anchor integrity (unit)", () => {
   it("header nav is an ordered subset of the full index (Background is menu/footer-only)", () => {
     const index = INDEX_ITEMS.map((i) => i.id);
     const header = HEADER_NAV.map((i) => i.id);
-    expect(header.every((id, n) => index.indexOf(id) === index.indexOf(header[n]) && index.includes(id))).toBe(true);
+    let prev = -1;
+    for (const id of header) {
+      const at = index.indexOf(id);
+      expect(at).toBeGreaterThan(prev); // ordered subset
+      prev = at;
+    }
     expect(index.filter((id) => id !== "background")).toEqual(header);
   });
   it("index numbers are zero-padded sequence", () => {
