@@ -219,7 +219,12 @@ export function RoleLens() {
                   </button>
                 </span>
               </div>
-              <table className="mock-tbl">
+              <p className="sr-only" aria-live="polite">
+                {`${role.label}: ${role.nav
+                  .map((v, i) => `${MOCK_NAV[i]} ${v === 1 ? "enabled" : "locked"}`)
+                  .join(", ")}.`}
+              </p>
+              <table className="mock-tbl" aria-label="Feature access matrix for the selected role">
                 <thead>
                   <tr>
                     {MOCK_TABLE.head.map((h) => (

@@ -6,18 +6,16 @@ import { useToast } from "@/components/ui/Toast";
 /**
  * Copy-to-clipboard control (prototype [data-copy] behaviour):
  * navigator.clipboard → hidden-textarea execCommand fallback → toast via the
- * single ToastProvider (rule 40). Renders <a> when `href` is given (click is
- * intercepted — the prototype's copy rows never navigate), else <button>.
+ * single ToastProvider (rule 40). Always a <button>: copy rows never navigate
+ * (phase-07 button-vs-link correctness — links are for navigation only).
  */
 export function CopyButton({
   value,
-  href,
   className,
   children,
   ariaLabel,
 }: {
   value: string;
-  href?: string;
   className?: string;
   children: ReactNode;
   ariaLabel?: string;
@@ -49,18 +47,6 @@ export function CopyButton({
     }
   };
 
-  if (href) {
-    return (
-      <a
-        href={href}
-        className={className}
-        onClick={copy}
-        aria-label={ariaLabel}
-      >
-        {children}
-      </a>
-    );
-  }
   return (
     <button
       type="button"

@@ -31,11 +31,18 @@ export function MobileMenu() {
 
   useEffect(() => {
     if (!open) return;
+    // phase-07: move focus into the sheet so keyboard users land in context
+    const t = setTimeout(() => {
+      document.querySelector<HTMLElement>("#mobile-menu a")?.focus();
+    }, 60);
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") close(true);
     };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("keydown", onKey);
+    };
   }, [open, close]);
 
   return (
@@ -64,16 +71,16 @@ export function MobileMenu() {
           aria-label="Mobile sections"
           onClick={() => close(false)}
         >
-          {INDEX_ITEMS.map((item, idx) => (
-            <a
-              key={item.id}
-              href={`#${item.id}`}
-              style={{ "--i": idx } as CSSProperties}
-            >
-              <em>{item.num}</em>
-              {item.label}
-            </a>
-          ))}
+          <ul>
+            {INDEX_ITEMS.map((item, idx) => (
+              <li key={item.id} style={{ "--i": idx } as CSSProperties}>
+                <a href={`#${item.id}`}>
+                  <em>{item.num}</em>
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
         </nav>
         <div className="m-foot">
           <div className="m-cta">

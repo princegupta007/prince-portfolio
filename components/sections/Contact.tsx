@@ -43,7 +43,6 @@ function Row({ row }: { row: ContactRow }) {
     return (
       <CopyButton
         value={row.value}
-        href={row.href}
         className="crow"
         ariaLabel={`${row.label} — click to copy`}
       >

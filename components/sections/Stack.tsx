@@ -27,7 +27,7 @@ export function Stack() {
                 <i aria-hidden="true" />
                 <span>{g.title}</span>
               </div>
-              <div className="chips">
+              <div className="chips" role="list">
                 {g.keys.map((k) => (
                   <Chip k key={k}>
                     <span className="sq" aria-hidden="true" />

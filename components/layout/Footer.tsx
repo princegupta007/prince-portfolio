@@ -25,12 +25,16 @@ export function Footer() {
           </div>
 
           <nav className="f-nav" aria-label="Section index">
-            {INDEX_ITEMS.map((item) => (
-              <a key={item.id} href={`#${item.id}`}>
-                <em>{item.num}</em>
-                {item.label}
-              </a>
-            ))}
+            <ul>
+              {INDEX_ITEMS.map((item) => (
+                <li key={item.id}>
+                  <a href={`#${item.id}`}>
+                    <em>{item.num}</em>
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </nav>
 
           <div className="f-side">

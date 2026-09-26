@@ -114,6 +114,11 @@ export function Hero() {
         <div className="hero-visual" id="heroVisual" aria-hidden="true">
           <HeroCanvas />
         </div>
+        <p className="sr-only">
+          Animated specimen beside this intro: a mock admin console cycling
+          through roles, showing how server-enforced permissions change what
+          each role can see and do.
+        </p>
       </div>
       <div className="mq" aria-hidden="true">
         <div className="mq-track" id="mqTrack">
