@@ -1406,19 +1406,30 @@ body::after {
   gap: 0.14em;
 }
 .hero-h .outline {
-  /* stroke-first + bg fill masks the variable font's overlapping component
-     contours (default-state ghosting); half the stroke is covered by the fill,
-     so width is doubled to keep the same visible weight */
-  paint-order: stroke fill;
+  /* `-webkit-text-stroke` traces every contour in Bricolage's variable glyphs.
+     In the outline state, the overlapping contours of its e/E glyphs become
+     visible as false horizontal strokes; the filled hover state hides them.
+     A text-shadow traces the final glyph alpha mask instead, so it produces
+     one clean outer outline without exposing component contours. */
   color: var(--bg);
-  -webkit-text-stroke: 2.8px var(--ink);
+  font-synthesis: none;
+  -webkit-text-stroke: 0 transparent;
+  text-shadow:
+    1.4px 0 0 var(--ink),
+    -1.4px 0 0 var(--ink),
+    0 1.4px 0 var(--ink),
+    0 -1.4px 0 var(--ink),
+    1px 1px 0 var(--ink),
+    -1px 1px 0 var(--ink),
+    1px -1px 0 var(--ink),
+    -1px -1px 0 var(--ink);
   transition:
     color 0.55s var(--ease),
-    -webkit-text-stroke-color 0.55s;
+    text-shadow 0.55s var(--ease);
 }
 .hero:hover .hero-h .outline {
   color: var(--accent);
-  -webkit-text-stroke-color: transparent;
+  text-shadow: none;
 }
 .hero-h .per {
   color: var(--accent-fg);
