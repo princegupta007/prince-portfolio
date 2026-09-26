@@ -3,6 +3,7 @@
 > Paste this entire file into Antigravity as one task. Phase 12 must be approved. This is the final phase — nothing ships to "done" until this report is signed off by the owner.
 
 ## CRITICAL AGENT RULES (binding for this phase)
+
 1. Do not blindly implement. First inspect the existing project state and relevant files.
 2. Do not overwrite working code unnecessarily.
 3. Do not introduce unnecessary dependencies.
@@ -22,12 +23,15 @@
 17. After implementation, run the relevant checks and fix issues found during validation.
 
 ## 1. Objective
+
 Run a complete final audit of the LIVE production site against every standard in the plan (content integrity, visual/prototype parity, UX, responsive, a11y, SEO, performance, browser compat, security, error handling, agent hygiene, deploy readiness), fix or formally record every finding, then produce the owner sign-off pack and tag v1.0.0.
 
 ## 2. Context
+
 Phases 0–12 complete: app deployed on Vercel Hobby, CI green, artifacts archived per phase. This phase audits the PRODUCTION URL (plus fresh local build for source-level checks). Plan §10 (agent hygiene) and §13 (deliverables) are checklists for this audit.
 
 ## 3. Tasks
+
 - [ ] Author `agent/workflows/final-audit.md` (the 15-area checklist below, executable order, evidence requirements), then execute it in full:
   1. **Content integrity:** every fact traced to CV (metrics, dates, companies, education, contacts, availability, notice line); zero invented claims; email/phone/links verbatim.
   2. **Project anonymity:** `agent:content-scan` on prod HTML + assets; forbidden names absent in UI/JS/meta/aria/alt; company names correctly limited to Konstant/SSTPL/JECRC/Rajasthan Univ.
@@ -48,33 +52,40 @@ Phases 0–12 complete: app deployed on Vercel Hobby, CI green, artifacts archiv
 - [ ] Produce **sign-off pack** artifact: audit checklist (all 15 areas: pass/evidence links), final metrics table (Lighthouse ×3 median, bundle sizes, axe results, overflow results), known-issues list, maintenance guide (content edit workflow, redeploy steps, agent session protocol, branch model for post-launch work); fixes follow the normal flow (`phase/13-final-audit` → `develop`), then final release merge `develop → main` + tag `v1.0.0`.
 
 ## 4. Technical Requirements
+
 - Audit runs against production URL; source checks against fresh local build (parity of artifacts proven).
 - No new dependencies; no feature work in this phase (audit + fixes only; fixes require owner pre-approval if they change visuals/copy).
 
 ## 5. Files / Folders
+
 Create/modify: `agent/workflows/final-audit.md`, artifact pack, README/docs touch-ups, bug fixes if any (listed individually), tag `v1.0.0`.
 Do not touch: anything not flagged by the audit.
 
 ## 6. Agent Folder
+
 **Modified:** final-audit workflow + sign-off pack archived; decisions.md closed out; any rule/workflow drift corrected (single source of truth restored).
 
 ## 7. Restrictions
+
 - Do not "improve" the site beyond audit findings (scope creep = new change request).
 - Do not delete agent artifacts/decisions history.
 - Do not close exceptions without owner sign-off.
 - Do not tag v1.0.0 before every area is pass-or-approved-exception.
 
 ## 8. Validation
+
 - Final-audit workflow fully executed with evidence per area; CI green; prod Lighthouse median ≥ 95; axe 0; overflow 0; content-scan 0; secret-scan 0; bundle ≤ budget.
 - Sign-off pack reviewed by owner; exceptions (if any) signed.
 - Tag v1.0.0 pushed; deployment verified serving tagged build.
 
 ## 9. Definition of Done
+
 - [ ] 15/15 areas pass or carry signed exceptions.
 - [ ] Sign-off pack + maintenance guide archived; owner approves.
 - [ ] v1.0.0 tagged and live. Project complete.
 
 ## 10. FINAL REPORT (fill in and return)
+
 - Completed: …
 - Files created: …
 - Files modified: …

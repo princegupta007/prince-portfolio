@@ -1,0 +1,14 @@
+# Frozen references — NEVER reformatted (hash-pinned per agent/context/decisions.md D7)
+docs/
+
+# Ephemeral agent dirs
+agent/artifacts/
+agent/scratch/
+
+# Assets & generated
+public/cv/
+.next/
+node_modules/
+pnpm-lock.yaml
+LICENSE
+next-env.d.ts

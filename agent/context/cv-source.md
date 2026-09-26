@@ -19,6 +19,7 @@ SUMMARY
 Frontend engineer with full-stack delivery, 3.5+ years (Jan 2023 – present): React, Next.js, and TypeScript products with NestJS/Express APIs on PostgreSQL. Built server-enforced RBAC for 4 roles, subscription tiers with feature gating, and real-time bid and chat flows over WebSockets; cut Match Creatorz's initial bundle ~30%.
 
 TECHNICAL SKILLS
+
 - Languages: JavaScript (ES6+), TypeScript
 - Frontend: React.js, Next.js (App Router, SSR), Zustand, TanStack Query, Material-UI, HTML5, CSS3, Tailwind CSS, responsive design, code-splitting and lazy loading
 - Backend: Node.js, Express.js, NestJS, REST APIs, JWT authentication, RBAC, WebSockets, PostgreSQL with Prisma
@@ -29,6 +30,7 @@ TECHNICAL SKILLS
 PROFESSIONAL EXPERIENCE
 
 **Associate Software Developer | Konstant Infosolutions Pvt Ltd, Jaipur — Jul 2024 – Present**
+
 - Match Creatorz — freelance hiring marketplace
   - Built the bid-to-hire transaction flow and buyer-freelancer chat in the authenticated React SPA (TypeScript, TanStack Query, Zustand) — freelancers bid on posted jobs and buyers accept, with bid and message state pushed over WebSockets using optimistic updates that roll back on server rejection.
   - Rebuilt the public marketing surface as a separate Next.js App Router app with SSR on Vercel so it could be crawled and cached independently of the SPA.
@@ -48,29 +50,32 @@ PROFESSIONAL EXPERIENCE
   - Built the staff roster front end in React.js, pushing shift and availability updates live over WebSockets to ~40 seasonal instructors, backed by a NestJS REST API serving group, private, and kids lesson bookings.
 
 **Freelance Full-Stack Developer (Independent) | Own product, concurrent with full-time role — Jun 2026 – Jul 2026**
+
 - Listeners Connect — emotional-support & relationship platform
   - Delivered the platform end to end as sole developer, connecting users with listeners and experts across 8 support categories, taking the React.js admin panel, public site, and Node.js/Express API with JWT authentication to production within 8 weeks using AI-assisted development workflows (Claude Code, Cursor).
 
 **Jr. Full Stack Developer | SSTPL (Sehaj Synergy Tech. Pvt. Ltd.), Jaipur — Jan 2023 – Jul 2024**
+
 - Built an RFID employee check-in/check-out pipeline — reader events ingested and stored through a Django service, surfaced on a live React.js map dashboard processing 500+ events/day; extended it to a child-safety use case with alerts routed to designated staff.
 - Implemented JWT authentication across 5+ internal tools — React login flow against Django REST endpoints — and built 10+ reusable React/Material-UI components covered by Jest and React Testing Library tests; also contributed to peer code reviews and CI/CD pipeline maintenance.
 - Built data-entry forms that cut manual processing time ~25% for 50+ operations staff across 3 internal teams.
 
 EDUCATION
+
 - Master of Computer Applications (MCA) — Data Science and Data Analytics | JECRC University, Jaipur | 2021 – 2023
 - Bachelor of Computer Applications (BCA) — Computer Science | University of Rajasthan, Jaipur | 2017 – 2021
 
 ## Render-safe transformations (approved mappings — CV name → portfolio wording)
 
-| CV project name (BANNED in UI) | Portfolio-safe product TYPE wording |
-|---|---|
-| Match Creatorz | freelance hiring marketplace |
-| Fivra | multi-role task & operations platform |
-| EinfraSouq | B2B construction-procurement marketplace (Oman/GCC) |
-| Aqar360 | real-estate marketplace (Oman) |
-| TPGE Espresso | multi-site café platform (Western Australia) |
-| Hakuba Snow Sports | ski-school booking & staff-scheduling platform (Japan) |
-| Listeners Connect | emotional-support & relationship platform (own product) |
+| CV project name (BANNED in UI) | Portfolio-safe product TYPE wording                     |
+| ------------------------------ | ------------------------------------------------------- |
+| Match Creatorz                 | freelance hiring marketplace                            |
+| Fivra                          | multi-role task & operations platform                   |
+| EinfraSouq                     | B2B construction-procurement marketplace (Oman/GCC)     |
+| Aqar360                        | real-estate marketplace (Oman)                          |
+| TPGE Espresso                  | multi-site café platform (Western Australia)            |
+| Hakuba Snow Sports             | ski-school booking & staff-scheduling platform (Japan)  |
+| Listeners Connect              | emotional-support & relationship platform (own product) |
 
 Employers **Konstant Infosolutions Pvt Ltd** and **SSTPL**, plus **JECRC University** and **University of Rajasthan**, ARE allowed (they are employers/educators, not client projects).
 

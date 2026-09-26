@@ -3,6 +3,7 @@
 > Paste this entire file into Antigravity as one task. Phase 3 must be approved. Do not start Phase 5 until the Definition of Done is met and the owner approves the Final Report.
 
 ## CRITICAL AGENT RULES (binding for this phase)
+
 1. Do not blindly implement. First inspect the existing project state and relevant files.
 2. Do not overwrite working code unnecessarily.
 3. Do not introduce unnecessary dependencies.
@@ -22,12 +23,15 @@
 17. After implementation, run the relevant checks and fix issues found during validation.
 
 ## 1. Objective
+
 Port ALL content into typed modules and implement every section (01 Hero → 09 Contact + 03·B Wiring) server-rendered and content-complete, with the essential interactive cores functional **without motion** (state changes instant). After this phase the portfolio reads correctly with JavaScript disabled.
 
 ## 2. Context
+
 Phases 1–3 delivered shell + tokens + primitives. Content source: `agent/context/cv-source.md` (verbatim facts) and prototype copy. Motion (reveals, counters animation, cycles, marquee animation, parallax, preloader) is explicitly Phase 5 — in Phase 4 render final/static states. Interactive cores in scope now: Exhibit role switching, Wiring node selection (+←/→ keys), copy-email, theme (done), menu (done).
 
 ## 3. Tasks
+
 - [ ] **Content modules** (`content/`): `metrics.ts` (6), `expertise.ts` (7 bento tiles), `wiring.ts` (10 nodes/3 bands/2 buses), `exhibit.ts` (4 RoleSpecs: nav arrays 10/7/5/2, caps matrix, scope/mask/write/path/title/note + audit line templates), `experience.ts` (3 roles with bullets/contexts/tech), `principles.ts` (4), `stack.ts` (6 groups with key flags), `education.ts` (2), `contact.ts` (rows + availability + notice). Every metric carries a `// CV:` traceability comment.
 - [ ] `tests/content-policy.test.ts` (Vitest): fails if any forbidden project name (Match Creatorz, Fivra, EinfraSouq, Aqar360, TPGE, Hakuba, Listeners Connect, case-insensitive) appears in `content/` or `app/` or `components/`.
 - [ ] `agent/tools/content-scan.ts` + wire `pnpm agent:content-scan` (same scan, CI-ready); scope excludes `agent/context/` but asserts nothing imports cv-source.
@@ -49,25 +53,30 @@ Phases 1–3 delivered shell + tokens + primitives. Content source: `agent/conte
 - [ ] Base hover/focus states everywhere (CSS transitions only, no JS).
 
 ## 4. Technical Requirements
+
 - Sections = Server Components; islands exactly: `HeroCanvas`, `WiringDiagram`, `RoleLens`, `CopyButton` (+ Phase 3 islands). List final island map in PR.
 - No-JS: `curl` HTML must contain every section's text content (counters final values, wiring node 01 panel, exhibit super-admin state).
 - Copy strings verbatim from prototype/CV; product references only as type+region+fact.
 - Keep client JS of this phase ≤ +8 KB gz over Phase 3 baseline (measure in PR).
 
 ## 5. Files / Folders
+
 Create/modify: `content/*.ts` (9 modules), `components/sections/*.tsx` (9), `components/interactive/{HeroCanvas,WiringDiagram,RoleLens,CopyButton}.tsx`, `tests/content-policy.test.ts`, `agent/tools/content-scan.ts`, `agent/workflows/implement-section.md`, `app/page.tsx` (compose sections).
 Do not touch: layout shell (except stub removal), tokens, `docs/`.
 
 ## 6. Agent Folder
+
 **Modified:** new tool `content-scan.ts`, workflow `implement-section.md`, artifact export with per-section screenshots + island map + JS delta.
 
 ## 7. Restrictions
+
 - Do NOT add motion/reveals/counters animation/auto-cycles/preloader/parallax/magnetic/palette (Phase 5).
 - Do NOT invent metrics, dates, companies, or product names; do NOT render cv-source content beyond CV-public facts.
 - Do NOT make islands larger than their state logic (no animation code yet).
 - Do NOT skip no-JS readability for any section.
 
 ## 8. Validation
+
 - `pnpm lint && pnpm tsc --noEmit && pnpm build && pnpm test` green (policy test included).
 - `pnpm agent:content-scan` exit 0.
 - `curl -s localhost:3000 | grep -c` checks: each section id present; counter final strings present; wiring panel node-01 text present.
@@ -75,12 +84,14 @@ Do not touch: layout shell (except stub removal), tokens, `docs/`.
 - Screenshot each section at 1440 dark+light → owner visual review vs prototype.
 
 ## 9. Definition of Done
+
 - [ ] All 9 sections + 03·B content-complete, server-rendered, interactive cores functional.
 - [ ] Policy test + scan green; island map + JS delta in PR.
 - [ ] Owner visual approval per section (screenshot grid).
 - [ ] PR approved with Final Report.
 
 ## 10. FINAL REPORT (fill in and return)
+
 - Completed: …
 - Files created: …
 - Files modified: …

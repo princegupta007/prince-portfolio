@@ -3,6 +3,7 @@
 > Paste this entire file into Antigravity as one task. Phase 9 must be approved. Do not start Phase 11 until the Definition of Done is met and the owner approves the Final Report.
 
 ## CRITICAL AGENT RULES (binding for this phase)
+
 1. Do not blindly implement. First inspect the existing project state and relevant files.
 2. Do not overwrite working code unnecessarily.
 3. Do not introduce unnecessary dependencies.
@@ -22,12 +23,15 @@
 17. After implementation, run the relevant checks and fix issues found during validation.
 
 ## 1. Objective
+
 Implement graceful-failure architecture per plan §6/§2.9 (route + global error boundaries, styled 404, reserved loading, island-level static fallbacks, clipboard/font/storage fallbacks), finalize security+cache headers, and prove production build/runtime behavior locally.
 
 ## 2. Context
+
 Phases 1–9 delivered performant SEO-complete page. Failure surfaces are limited by design (no runtime fetching, no forms): client-hydration/island runtime errors, unknown routes, missing assets, clipboard denial, storage exceptions, font failure.
 
 ## 3. Tasks
+
 - [ ] `app/error.tsx`: design-language card ("Something broke on this screen"), `reset()` retry button, mailto escape hatch; logs via `console.error` only (no external service).
 - [ ] `app/global-error.tsx`: minimal self-contained shell (inline styles, no design-system import) + reload button; preserves `<html>` theme attribute.
 - [ ] `app/not-found.tsx`: styled 404 (mono index chip "404", outline display line, section index links, back-to-top); unknown routes verified.
@@ -40,24 +44,29 @@ Phases 1–9 delivered performant SEO-complete page. Failure surfaces are limite
 - [ ] Document failure matrix coverage in `agent/context/decisions.md` (map plan §6 rows → implementation).
 
 ## 4. Technical Requirements
+
 - Error UI must be accessible (focus moves to error card heading on route error; retry is a real button).
 - CSP must not break Next inline styles or fonts; verify with CSP report-only run first, then enforce.
 - No error-tracking SaaS added (free-tier discipline); console-only logging documented.
 
 ## 5. Files / Folders
+
 Create/modify: `app/{error,global-error,not-found,loading}.tsx`, `components/interactive/IslandBoundary.tsx`, section island mounts, `vercel.json`, `next.config.ts`, smoke script `agent/tools/smoke-prod.ts` (or playwright spec), decisions.md.
 Do not touch: content, visuals, budgets (error UI adds < 2 KB).
 
 ## 6. Agent Folder
+
 **Modified:** smoke tool added (`agent:smoke`), failure-matrix decisions logged; artifact with 404/error screenshots + header dumps.
 
 ## 7. Restrictions
+
 - Do not add Sentry/external monitoring (owner approval required; not now).
 - Do not ship the `?boom` drill mechanism to production.
 - Do not weaken CSP to silence warnings — fix the source instead.
 - Do not mark done without the production-build smoke passing locally.
 
 ## 8. Validation
+
 - `pnpm lint && pnpm tsc --noEmit && pnpm build && pnpm start` + `pnpm agent:smoke` green (all routes/statuses/headers asserted).
 - `/definitely-not-a-route` → 404 status + styled page (screenshot).
 - Island-failure drill (dev) → static fallback screenshot; page scroll/interactions elsewhere unaffected.
@@ -65,11 +74,13 @@ Do not touch: content, visuals, budgets (error UI adds < 2 KB).
 - CSP enforced with zero console CSP violations in both themes.
 
 ## 9. Definition of Done
+
 - [ ] All boundary/fallback files committed; failure matrix fully mapped.
 - [ ] Prod smoke green incl. headers + 404; CSP enforced clean.
 - [ ] PR approved with Final Report + screenshots.
 
 ## 10. FINAL REPORT (fill in and return)
+
 - Completed: …
 - Files created: …
 - Files modified: …

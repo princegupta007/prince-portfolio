@@ -4,18 +4,18 @@ Everything in this folder exists for the AI coding agent (Antigravity / Arena). 
 
 ## Contract
 
-| Path | Purpose | Git |
-|---|---|---|
-| `README.md` (this file) | Folder contract + session checklist | committed |
-| `rules/00…50-*.md` | Priority-ordered binding rules (project, content policy, design system, performance, accessibility, code style) — Phase 1 | committed |
-| `context/cv-source.md` | Verbatim CV extract — **internal only, never rendered/imported** | committed |
-| `context/prototype-notes.md` | Sections, interaction parameters, approved deviations | committed |
-| `context/decisions.md` | Durable decisions log (append-only) | committed |
-| `prompts/phase-*.md` | Copy-paste phase execution prompts (0–13) + protocol README | committed |
-| `workflows/*.md` | Repeatable playbooks (implement-section, visual-parity-check, a11y-pass, perf-audit, seo-checklist, release, rollback, final-audit) — created in their phases | committed |
-| `tools/*.ts` | Validation scripts run via `pnpm agent:*` (content-scan, screenshot-grid, link-check, bundle-check, secret-scan, smoke-prod) — created in their phases | committed |
-| `artifacts/<date>-phase-NN/` | Per-phase evidence (screenshots, reports, task lists) | **gitignored** |
-| `scratch/` | Throwaway experiments, OG template, drill flags | **gitignored** |
+| Path                         | Purpose                                                                                                                                                       | Git            |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| `README.md` (this file)      | Folder contract + session checklist                                                                                                                           | committed      |
+| `rules/00…50-*.md`           | Priority-ordered binding rules (project, content policy, design system, performance, accessibility, code style) — Phase 1                                     | committed      |
+| `context/cv-source.md`       | Verbatim CV extract — **internal only, never rendered/imported**                                                                                              | committed      |
+| `context/prototype-notes.md` | Sections, interaction parameters, approved deviations                                                                                                         | committed      |
+| `context/decisions.md`       | Durable decisions log (append-only)                                                                                                                           | committed      |
+| `prompts/phase-*.md`         | Copy-paste phase execution prompts (0–13) + protocol README                                                                                                   | committed      |
+| `workflows/*.md`             | Repeatable playbooks (implement-section, visual-parity-check, a11y-pass, perf-audit, seo-checklist, release, rollback, final-audit) — created in their phases | committed      |
+| `tools/*.ts`                 | Validation scripts run via `pnpm agent:*` (content-scan, screenshot-grid, link-check, bundle-check, secret-scan, smoke-prod) — created in their phases        | committed      |
+| `artifacts/<date>-phase-NN/` | Per-phase evidence (screenshots, reports, task lists)                                                                                                         | **gitignored** |
+| `scratch/`                   | Throwaway experiments, OG template, drill flags                                                                                                               | **gitignored** |
 
 Root `AGENTS.md` is a thin pointer (≤30 lines) to this folder — it contains no rules itself.
 

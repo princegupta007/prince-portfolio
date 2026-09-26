@@ -3,6 +3,7 @@
 > Paste this entire file into Antigravity as one task. Do not start Phase 1 until the Definition of Done is met and the owner approves the Final Report.
 
 ## CRITICAL AGENT RULES (binding for this phase)
+
 1. Do not blindly implement. First inspect the existing project state and relevant files.
 2. Do not overwrite working code unnecessarily.
 3. Do not introduce unnecessary dependencies.
@@ -22,12 +23,15 @@
 17. After implementation, run the relevant checks and fix issues found during validation.
 
 ## 1. Objective
+
 Analyse every provided artifact, establish the repository's knowledge base (`docs/`, `agent/context/`), and produce a written implementation analysis (sections, islands, interactions, assets, assumptions). **No application code is written in this phase.**
 
 ## 2. Context
+
 Greenfield repo. The owner provides: the approved prototype (`index.html`, single-file, v2.1), the CV PDF, `DESIGN-SYSTEM.md`, `IMPLEMENTATION-PLAN.md` (rev 1.1). The plan is the source of truth for stack/architecture; the prototype is the source of truth for UI/UX. Hard constraints: no project names anywhere in portfolio content; CV is the only factual source; Vercel Hobby tier only; runtime deps = `next, react, react-dom` only.
 
 ## 3. Tasks
+
 - [ ] Inventory the workspace; record what exists vs what is missing.
 - [ ] Create `docs/` and place: `docs/prototype/index.html` (frozen prototype), `docs/DESIGN-SYSTEM.md`, `docs/IMPLEMENTATION-PLAN.md`, `docs/cv/Prince_Gupta_Frontend_Engineer.pdf`.
 - [ ] Read the prototype end-to-end. Produce in `agent/context/prototype-notes.md`: (a) list of all sections in order (01 Hero, 02 Numbers, 03 Expertise + 03·B Wiring, 04 Exhibit, 05 Experience, 06 Principles, 07 Stack, 08 Background, 09 Contact, footer); (b) every interaction with its parameters (hero role-cycle 2.9s super→admin→company→partner; rotator 5 words @3.6s scramble; counters 1.5s; marquee 42s duplicated set; wiring auto-cycle 4.6s with permanent handover; exhibit audit lines 150ms stagger max 7; preloader once/session; theme dark default + light "paper"); (c) the two approved deviations (cookie theme, lazy palette).
@@ -37,34 +41,41 @@ Greenfield repo. The owner provides: the approved prototype (`index.html`, singl
 - [ ] Confirm in writing (inside the analysis): "Project names must NOT appear in portfolio content; enforcement = `tests/content-policy.test.ts` + `agent/tools/content-scan.ts` (Phase 3/4)."
 
 ## 4. Technical Requirements
+
 - Markdown-only deliverables; zero dependencies installed; zero app code.
 - Every claim in the analysis must cite its source file (prototype section / plan § / CV line).
 
 ## 5. Files / Folders
+
 Create: `docs/**`, `agent/README.md`, `agent/context/cv-source.md`, `agent/context/prototype-notes.md`, `agent/prompts/**` (this set), `agent/artifacts/<date>-phase-00/analysis.md`, `agent/scratch/`, `.gitignore` (repo init allowed: git only).
 Modify: nothing else.
 
 ## 6. Agent Folder
+
 **Created in this phase.** This is the only phase that bootstraps `agent/`. Keep everything agent-specific here; `docs/` holds shared human+agent references.
 
 ## 7. Restrictions
+
 - Do NOT initialize the Next.js app, install packages, or write any `app/`, `components/`, `content/` code.
 - Do NOT paraphrase CV facts into new claims (extract verbatim only).
 - Do NOT publish/commit project names outside `agent/context/cv-source.md` and `docs/cv/`.
 - Do NOT make design decisions — record questions instead.
 
 ## 8. Validation
+
 - `git status` shows only the files listed in §5.
 - Analysis file lists ≥ 9 sections, ≥ 12 interactions with parameters, ≥ 3 assets, ≥ 5 assumptions.
 - Owner reads `analysis.md` and answers the open questions.
 
 ## 9. Definition of Done
+
 - [ ] `docs/` complete and frozen (prototype hash recorded in analysis).
 - [ ] `agent/context/` contains cv-source + prototype-notes.
 - [ ] Analysis approved by owner (explicit "proceed to Phase 1").
 - [ ] Final Report returned.
 
 ## 10. FINAL REPORT (fill in and return)
+
 - Completed: …
 - Files created: …
 - Files modified: …
