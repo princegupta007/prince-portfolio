@@ -1,0 +1,57 @@
+# Phase 11 — CI gate for every push/PR to develop and main.
+# Free-tier friendly: single ubuntu runner, pnpm cache, no paid services.
+name: ci
+
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+    branches: [develop, main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm exec tsc --noEmit
+
+      - name: Unit + component tests (vitest)
+        run: pnpm test
+
+      - name: Content policy (no project names)
+        run: pnpm exec tsx agent/tools/content-scan.ts
+
+      - name: Agent link check
+        run: pnpm exec tsx agent/tools/link-check.ts
+
+      - name: Production build
+        run: pnpm build
+
+      - name: Bundle budget gate
+        run: pnpm exec tsx agent/tools/bundle-check.ts
+
+      - name: E2E (served build)
+        run: |
+          (pnpm exec next start -p 3100 &) 
+          sleep 4
+          pnpm exec tsx tests/e2e/seo.spec.ts
+          pnpm exec tsx tests/e2e/smoke.spec.ts
+          pnpm exec tsx tests/e2e/responsive.spec.ts
+          pnpm exec tsx agent/tools/smoke-prod.ts
+
+      - name: Accessibility (axe, 10 states)
+        run: pnpm exec tsx agent/tools/a11y-audit.ts
