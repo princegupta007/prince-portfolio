@@ -56,7 +56,7 @@ with sync_playwright() as pw:
     coarse = pg.evaluate("() => matchMedia('(pointer: coarse)').matches")
     check("B0 coarse pointer emulated", coarse)
     sizes = pg.evaluate("""() => {
-      const sel = ['.burger', '.icon-btn', '.role-tab', 'a.crow', '.kbd-btn'];
+      const sel = ['.burger', '.icon-btn', '.role-tab', '.crow', '.kbd-btn'];
       const out = {};
       for (const s of sel) {
         const els = [...document.querySelectorAll(s)].filter(e => e.getBoundingClientRect().height > 0);
@@ -100,7 +100,7 @@ with sync_playwright() as pw:
     check("C2 mock-side stays decorative (aria-hidden, no tab traps)",
           side is not None and side["hidden"] == "true" and side["focusables"] == 0, json.dumps(side))
     hint = pg.evaluate("""async () => {
-      const row = document.querySelector('a.crow');
+      const row = document.querySelector('.crow');
       row.focus();
       await new Promise(r => setTimeout(r, 500));
       const h = row.querySelector('.copy-hint');

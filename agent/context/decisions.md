@@ -52,3 +52,26 @@ in findings F-01.
 `@media (pointer:coarse)` enforces ≥44px interactive targets (menu links, role tabs, work rows,
 palette options, icon buttons, burger, kbd chips). Copy hints gain `:focus-visible`/`:focus-within`
 parity. Approved scrollers get thin scrollbars + edge-fade masks as scroll affordances.
+
+### D29 · Contrast token deltas (phase-07)
+WCAG AA fixes via tokens only (before → after, ratio on theme bg):
+dark `--color-ink-3` #696f7b → #7b8290 (3.85 → 5.10); light `--color-ink-3` #868c98 →
+#5f6670 (3.07 → 5.27); `.audit-body .ln em` hardcoded #5a6170 → #7b8290 (console is
+dark-surfaced in both themes, 3.4 → 4.9); `.f-nav a em` opacity .7 removed (diluted olive
+3.9 → 5.27); `.mock-nav.off` container opacity .3 → dim only `.sq`/`.lock` (text stays at
+ink-3, 2.0 → 4.9/5.2). Full table: artifacts contrast-table.md (0 AA misses).
+
+### D30 · Semantic markup upgrades (phase-07)
+Real list markup (`ul>li`) inside all three nav landmarks + Stack chips/Experience ctx as
+role=list/listitem; CopyButton always `<button>` (copy is an action; links navigate only —
+CSS `a.crow` → `.crow` + button reset); exhibit mock table gets `aria-label`; per-role
+SR summary `p.sr-only[aria-live=polite]` in RoleLens; wiring section `role=region` +
+aria-label; hero canvas stays aria-hidden via `.hero-visual` with an SR-only description
+outside it; `.sr-only` utility added.
+
+### D31 · Focus management + e2e infra (phase-07)
+MobileMenu focuses first sheet link on open (Esc already restored burger). Command palette
+keeps native dialog trap. `tests/e2e/` specs run via `pnpm test:e2e [filter]` through tsx
+(run.ts) — no @playwright/test runner dependency added; @axe-core/playwright is the only
+new devDep. Reduced-motion kill-list extended: mq-track, canvas .scan, w-bus i, wp-body
+anim, audit ln.

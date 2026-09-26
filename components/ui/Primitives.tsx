@@ -12,7 +12,9 @@ export function Chip({
   className?: string;
 }) {
   return (
-    <span className={cn("chip", k && "chip-key", className)}>{children}</span>
+    <span role="listitem" className={cn("chip", k && "chip-key", className)}>
+      {children}
+    </span>
   );
 }
 

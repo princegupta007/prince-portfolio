@@ -15,7 +15,8 @@
     "agent:link-check": "echo \"[agent] link-check lands in Phase 8\" && exit 0",
     "agent:bundle-check": "echo \"[agent] bundle-check lands in Phase 9\" && exit 0",
     "agent:secret-scan": "echo \"[agent] secret-scan lands in Phase 10\" && exit 0",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:e2e": "tsx tests/e2e/run.ts"
   },
   "dependencies": {
     "next": "16.3.6",
@@ -23,6 +24,7 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

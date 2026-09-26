@@ -77,9 +77,9 @@ export function Experience() {
                 </ul>
                 <div className="ctx-row">
                   <div className="ctx-label">{r.contextsLabel}</div>
-                  <div className="ctx-chips">
+                  <div className="ctx-chips" role="list">
                     {r.contexts.map((c) => (
-                      <span className="ctx" key={c.name}>
+                      <span className="ctx" role="listitem" key={c.name}>
                         <i /> {c.name} <small>{c.sub}</small>
                       </span>
                     ))}

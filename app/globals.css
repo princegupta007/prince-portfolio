@@ -22,7 +22,7 @@
   --color-grid-c: rgba(255, 255, 255, 0.03);
   --color-ink: #f2f1ea;
   --color-ink-2: #a7acb6;
-  --color-ink-3: #696f7b;
+  --color-ink-3: #7b8290; /* phase-07: was #696f7b, 3.85:1 on bg → 5.10:1 (D29) */
   --color-accent: #cbf24c;
   --color-accent-2: #dff98a;
   --color-accent-fg: #cbf24c;
@@ -133,7 +133,7 @@ html[data-theme="light"] {
   --color-grid-c: rgba(21, 22, 26, 0.055);
   --color-ink: #15161a;
   --color-ink-2: #4b505c;
-  --color-ink-3: #868c98;
+  --color-ink-3: #5f6670; /* phase-07: was #868c98, 3.07:1 on bg → 5.27:1 (D29) */
   --color-accent: #c6f04e;
   --color-accent-2: #b2e12c;
   --color-accent-fg: #546e0b;
@@ -1119,8 +1119,7 @@ body::after {
   .f-nav a em {
     font-style: normal;
     font-size: 0.58rem;
-    color: var(--color-accent-fg);
-    opacity: 0.7;
+    color: var(--color-accent-fg); /* full-strength olive: opacity diluted to 3.9:1 (phase-07) */
   }
   .f-nav a:hover {
     color: var(--color-ink);
@@ -2761,7 +2760,13 @@ body::after {
   background: var(--accent);
 }
 .mock-nav.off {
-  opacity: 0.3;
+  /* phase-07: container opacity diluted text below AA; dim only non-text
+     parts so the off-state reads faded but stays legible (D29) */
+  color: var(--ink-3);
+}
+.mock-nav.off .sq,
+.mock-nav.off .lock {
+  opacity: 0.35;
 }
 .mock-nav.off .lock {
   margin-left: auto;
@@ -2934,7 +2939,7 @@ body::after {
 }
 .audit-body .ln em {
   font-style: normal;
-  color: #5a6170;
+  color: #7b8290; /* phase-07: was #5a6170 (3.4:1 on console panel) → 4.9:1 (D29) */
   flex: none;
 }
 .audit-body .ln b {
@@ -3622,7 +3627,7 @@ body::after {
 .crow:last-child {
   border-bottom: 0;
 }
-a.crow:hover {
+.crow:hover {
   background: var(--accent-dim);
   padding-left: 28px;
 }
@@ -3657,11 +3662,11 @@ a.crow:hover {
     transform 0.35s var(--ease);
   font-size: 0.9rem;
 }
-a.crow:hover .go {
+.crow:hover .go {
   opacity: 1;
   transform: none;
 }
-a.crow:hover .v {
+.crow:hover .v {
   padding-right: 22px;
 }
 .ct-avail {
@@ -3718,7 +3723,7 @@ a.crow:hover .v {
   transition: opacity 0.3s;
   flex: none;
 }
-a.crow:hover .copy-hint {
+.crow:hover .copy-hint {
   opacity: 1;
 }
 
@@ -3945,7 +3950,8 @@ a.crow:hover .copy-hint {
     grid-template-columns: 1fr;
     gap: 32px;
   }
-  .f-nav {
+  .f-nav,
+  .f-nav ul {
     grid-template-columns: 1fr 1fr;
   }
   .float-chip {
@@ -4306,8 +4312,8 @@ body.loading {
 }
 
 /* hover-only affordance → keyboard/touch parity */
-a.crow:focus-visible .copy-hint,
-a.crow:focus-within .copy-hint {
+.crow:focus-visible .copy-hint,
+.crow:focus-within .copy-hint {
   opacity: 1;
 }
 
@@ -4315,7 +4321,7 @@ a.crow:focus-within .copy-hint {
 @media (pointer: coarse) {
   .menu a,
   .role-tab,
-  a.crow,
+  .crow,
   .cmd-list li[role="option"] button,
   .icon-btn,
   .burger,
@@ -4384,6 +4390,58 @@ a.crow:focus-within .copy-hint {
 
 /* ── reduced motion (Phase 5 additions — prototype parity; placed last so
    these overrides win over the .js-gated rules by source order) ── */
+/* ── PHASE 7 · ACCESSIBILITY HARDENING ─────────────────────────────── */
+
+/* screen-reader-only utility (visually hidden, SR-available) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* real list markup inside nav landmarks (phase-07 semantic audit) */
+.nav ul,
+.f-nav ul,
+.m-links ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav ul {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.f-nav ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 30px;
+  align-content: start;
+}
+.m-links ul {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 8px;
+}
+
+/* copy rows are <button> now (phase-07): neutralise UA button chrome */
+button.crow {
+  background: none;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .js .reveal,
   .js .reveal.in {
@@ -4399,5 +4457,13 @@ a.crow:focus-within .copy-hint {
   }
   #loader {
     display: none;
+  }
+  /* phase-07: ambient loops fully stopped under reduced motion */
+  .mq-track,
+  .canvas .scan,
+  .w-bus i,
+  .wp-body.anim,
+  .audit-body .ln {
+    animation: none;
   }
 }

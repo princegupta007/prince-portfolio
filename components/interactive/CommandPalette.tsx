@@ -203,13 +203,17 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
         </div>
         <ul className="cmd-list" id="cmdList" role="listbox" aria-label="Commands" ref={listRef}>
           {view.length === 0 && (
-            <li className="cmd-empty">No matches — try “CV”, “stack”, “email”…</li>
+            <li className="cmd-empty" role="option" aria-selected={false} aria-disabled={true}>
+              No matches — try “CV”, “stack”, “email”…
+            </li>
           )}
           {view.map((c, i) => (
-            <li key={c.t} role="option" aria-selected={i === sel}>
+            <li key={c.t} role="none">
               <button
                 type="button"
                 data-i={i}
+                role="option"
+                aria-selected={i === sel}
                 className={i === sel ? "sel" : ""}
                 onClick={() => exec(i)}
                 onMouseEnter={() => setSel(i)}
