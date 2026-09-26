@@ -43,7 +43,8 @@ async function main() {
     if (tag.includes('target="_blank"') && !tag.includes("noopener")) {
       ok(`external ${url} target=_blank without noopener`);
     }
-    if (!/^https:\/\/(github\.com|www\.linkedin\.com|linkedin\.com)\//.test(url)) {
+    // owner-approved external destinations: profiles + WhatsApp + freelance proof link
+    if (!/^https:\/\/(github\.com|www\.linkedin\.com|linkedin\.com|wa\.me|fitnessforgegym\.in)(\/|$)/.test(url)) {
       ok(`unexpected external host: ${url}`);
     }
   }

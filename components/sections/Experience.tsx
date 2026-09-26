@@ -81,6 +81,17 @@ export function Experience() {
                     {r.contexts.map((c) => (
                       <span className="ctx" role="listitem" key={c.name}>
                         <i /> {c.name} <small>{c.sub}</small>
+                        {c.link && (
+                          <a
+                            className="ctx-link"
+                            href={c.link.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={c.link.aria}
+                          >
+                            {c.link.label ? `${c.link.label} ↗` : "↗"}
+                          </a>
+                        )}
                       </span>
                     ))}
                   </div>
