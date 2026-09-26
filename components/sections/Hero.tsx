@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { Pill } from "@/components/ui/Primitives";
-import { HeroCanvas } from "@/components/interactive/HeroCanvas";
+import { HeroCanvasLazy as HeroCanvas } from "@/components/interactive/HeroCanvasLazy";
 import { HeroFx } from "@/components/interactive/HeroFx";
 import { ScrambleWord } from "@/components/interactive/ScrambleWord";
 import { CONTACT, CV_PATH } from "@/lib/constants";
