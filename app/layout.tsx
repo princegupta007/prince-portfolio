@@ -7,11 +7,8 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { NavProvider } from "@/components/interactive/NavProvider";
-import { InteractionLayer } from "@/components/interactive/InteractionLayer";
 import { PaletteHost } from "@/components/interactive/PaletteHost";
 import { Preloader } from "@/components/interactive/Preloader";
-import { Reveal } from "@/components/interactive/Reveal";
-import { TimelineFill } from "@/components/interactive/TimelineFill";
 import { ToastProvider } from "@/components/ui/Toast";
 import { THEME_COOKIE , SITE_ORIGIN } from "@/lib/constants";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -123,9 +120,6 @@ export default async function RootLayout({
           </NavProvider>
           <PaletteHost />
         </ToastProvider>
-        <Reveal />
-        <InteractionLayer />
-        <TimelineFill />
       </body>
     </html>
   );
