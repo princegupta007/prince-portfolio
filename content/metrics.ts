@@ -21,11 +21,13 @@ export const METRICS: Metric[] = [
     // CV: Summary — "3.5+ years (Jan 2023 – present)"
   },
   {
-    value: 7,
+    value: 8,
     format: {},
     label: "Products delivered",
-    sub: "6 client platforms + own product",
-    // CV: Konstant — six client products; Freelance — own product end to end
+    sub: "7 client platforms + own product",
+    // CV: Konstant — six agency client products; Freelance — one client
+    // platform (fitness-sector site) + one own product end to end = 8.
+    // Keep in sync with EXPERIENCE_RAIL and the expertise.ts lead.
   },
   {
     value: 5000,

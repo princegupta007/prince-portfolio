@@ -13,8 +13,9 @@ export const EXPERTISE_HEAD = {
 } as const;
 
 export const EXPERTISE_INTRO = {
-  // CV: six client products (Konstant) + own product (freelance)
-  lead: "Across six client products and one platform of my own, the work keeps landing in the same places: complex interfaces where **permissions, state and performance** carry real weight.",
+  // CV: seven client products (six Konstant agency + one freelance
+  // fitness-sector platform) + one own product (freelance)
+  lead: "Across seven client products and one platform of my own, the work keeps landing in the same places: complex interfaces where **permissions, state and performance** carry real weight.",
   /** The word "CV" renders as a download link to the public CV PDF. */
   cvLine: {
     before: "The detailed breakdown lives in the ",

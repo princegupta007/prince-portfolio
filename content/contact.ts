@@ -1,4 +1,5 @@
 import type { ContactRow } from "./types";
+import { CONTACT } from "@/lib/constants";
 
 /**
  * 09 · Contact — lines h2, giant mailto with highlighter hover, CTA row,
@@ -53,6 +54,7 @@ export const CONTACT_ROWS: ContactRow[] = [
     value: "+91 99828 44166", // CV: phone
     href: "tel:+919982844166",
     numeric: true,
+    wa: CONTACT.whatsapp,
   },
   {
     kind: "linkedin",

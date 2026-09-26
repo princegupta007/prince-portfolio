@@ -203,7 +203,7 @@ with sync_playwright() as pw:
     check("palette chunk fetched lazily on open", len(lazy_chunks) >= 1, json.dumps(lazy_chunks[-3:]))
     pg.screenshot(path=f"{OUT}/05-palette.png")
     n_all = pg.evaluate("() => document.querySelectorAll('#cmdList button[role=option]').length")
-    check("palette lists 15 commands", n_all == 15, str(n_all))
+    check("palette lists 16 commands", n_all == 16, str(n_all))
     pg.fill("#cmdInput", "cv")
     pg.wait_for_timeout(200)
     n_cv = pg.evaluate("() => [...document.querySelectorAll('#cmdList button[role=option]')].map(b => b.textContent)")

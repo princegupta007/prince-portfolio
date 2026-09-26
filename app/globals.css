@@ -1406,15 +1406,19 @@ body::after {
   gap: 0.14em;
 }
 .hero-h .outline {
-  color: transparent;
-  -webkit-text-stroke: 1.4px var(--ink);
+  /* stroke-first + bg fill masks the variable font's overlapping component
+     contours (default-state ghosting); half the stroke is covered by the fill,
+     so width is doubled to keep the same visible weight */
+  paint-order: stroke fill;
+  color: var(--bg);
+  -webkit-text-stroke: 2.8px var(--ink);
   transition:
     color 0.55s var(--ease),
     -webkit-text-stroke-color 0.55s;
 }
 .hero:hover .hero-h .outline {
   color: var(--accent);
-  -webkit-text-stroke-color: var(--accent);
+  -webkit-text-stroke-color: transparent;
 }
 .hero-h .per {
   color: var(--accent-fg);
@@ -3095,6 +3099,10 @@ body::after {
   gap: 20px;
   flex-wrap: wrap;
 }
+.role-head > div:first-child {
+  min-width: 0;
+  flex: 1 1 auto;
+}
 .role h3 {
   font-size: clamp(1.25rem, 2vw, 1.55rem);
 }
@@ -3323,8 +3331,9 @@ body::after {
   font-weight: 800;
   font-size: clamp(3.6rem, 6vw, 5.4rem);
   line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1.2px var(--line-2);
+  paint-order: stroke fill;
+  color: var(--panel);
+  -webkit-text-stroke: 2.4px var(--line-2);
   transition:
     -webkit-text-stroke-color 0.5s,
     transform 0.5s var(--ease);
@@ -3332,6 +3341,7 @@ body::after {
 }
 .pr:hover .pr-n {
   -webkit-text-stroke-color: var(--accent-line);
+  color: var(--panel);
   transform: translateY(-4px);
 }
 .pr h3 {
@@ -3569,8 +3579,9 @@ body::after {
   line-height: 0.98;
 }
 .ct-h .outline {
-  color: transparent;
-  -webkit-text-stroke: 1.3px var(--ink);
+  paint-order: stroke fill;
+  color: var(--bg);
+  -webkit-text-stroke: 2.6px var(--ink);
 }
 .ct-lede {
   margin-top: 24px;
@@ -3613,6 +3624,7 @@ body::after {
 }
 .crow {
   display: flex;
+  width: 100%; /* button rows (copy) shrink-wrap by default — match block rows */
   align-items: center;
   justify-content: space-between;
   gap: 16px;
@@ -3622,6 +3634,42 @@ body::after {
     background 0.3s,
     padding-left 0.35s var(--ease);
   position: relative;
+}
+a.v {
+  color: inherit;
+  text-decoration: none;
+}
+.row-acts {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.row-acts a {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--ink-2);
+  transition: color 0.3s, border-color 0.3s, background 0.3s, transform 0.3s var(--ease);
+}
+.row-acts a:hover {
+  color: var(--accent-fg);
+  border-color: var(--accent-line);
+  background: var(--accent-dim);
+  transform: translateY(-1px);
+}
+.crow:has(.row-acts) .v {
+  padding-right: 74px;
+}
+.crow:has(.row-acts) .go {
+  display: none;
 }
 .crow:last-child {
   border-bottom: 0;
@@ -3720,10 +3768,21 @@ body::after {
   padding: 3px 7px;
   opacity: 0;
   transition: opacity 0.3s;
-  flex: none;
+  /* layout-neutral: invisible hint must not reserve flex space (email alignment) */
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 .crow:hover .copy-hint {
   opacity: 1;
+}
+.crow .copy-hint ~ .go {
+  display: none;
+}
+a.crow:has(.copy-hint):hover .v {
+  padding-right: 112px;
 }
 
 /* ── responsive matrix (prototype RESPONSIVE block, verbatim — includes shell
@@ -4556,4 +4615,178 @@ button.crow {
   .audit-body .ln {
     animation: none;
   }
+}
+
+/* ── owner add-ons: WhatsApp row action + freelance proof link ── */
+.ctx .ctx-link {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  margin-left: 8px;
+  color: var(--ink-2);
+  border-bottom: 1px dashed var(--line);
+}
+.ctx .ctx-link:hover {
+  color: var(--chip);
+  border-bottom-color: var(--chip);
+}
+
+/* ── owner add-on: portrait ID badge (gated by PORTRAIT_SRC) ── */
+.ct-id {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--line);
+}
+.ct-id-btn {
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  flex: none;
+  border-radius: 12px;
+  cursor: zoom-in;
+  line-height: 0;
+  transition: box-shadow 0.35s, transform 0.35s var(--ease);
+}
+.ct-id-btn img {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid var(--accent-line);
+  display: block;
+  transition: transform 0.45s var(--ease);
+}
+.ct-id-btn:hover,
+.ct-id-btn:focus-visible {
+  box-shadow: 0 0 0 3px var(--accent-dim);
+  outline: none;
+}
+.ct-id-btn:hover img,
+.ct-id-btn:focus-visible img {
+  transform: scale(1.07);
+}
+.ct-id b {
+  display: block;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.98rem;
+  letter-spacing: -0.01em;
+}
+.ct-id small {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+}
+.lb[hidden] {
+  display: none;
+}
+.lb {
+  position: fixed;
+  inset: 0;
+  z-index: 140;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.lb.on {
+  opacity: 1;
+}
+.lb-bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 7, 8, 0.74);
+  backdrop-filter: blur(14px) saturate(0.9);
+  -webkit-backdrop-filter: blur(14px) saturate(0.9);
+}
+.lb-card {
+  position: relative;
+  width: min(400px, 86vw);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--line-2);
+  box-shadow: 0 0 0 1px var(--accent-line), 0 34px 90px -22px rgba(0, 0, 0, 0.72);
+  transform: scale(0.94) translateY(12px);
+  transition: transform 0.45s var(--ease);
+}
+.lb.on .lb-card {
+  transform: none;
+}
+.lb-card > img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+.lb-cap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 15px 18px;
+  border-top: 1px solid var(--line);
+}
+.lb-cap b {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.02rem;
+  letter-spacing: -0.01em;
+}
+.lb-cap small {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.lb-cap .dot {
+  position: relative;
+  width: 7px;
+  height: 7px;
+  border-radius: 99px;
+  background: var(--good);
+  flex: none;
+}
+.lb-cap .dot::after {
+  content: "";
+  position: absolute;
+  inset: -3.5px;
+  border-radius: 99px;
+  border: 1.5px solid var(--good);
+  animation: pulse 2.2s var(--ease) infinite;
+}
+.lb-x {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 99px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line-2);
+  background: rgba(10, 11, 13, 0.72);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: color 0.3s, border-color 0.3s, background 0.3s, transform 0.3s var(--ease);
+  backdrop-filter: blur(6px);
+}
+.lb-x:hover,
+.lb-x:focus-visible {
+  color: var(--accent-fg);
+  border-color: var(--accent-line);
+  background: var(--accent-dim);
+  transform: rotate(90deg);
+  outline: none;
 }

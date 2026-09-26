@@ -52,6 +52,20 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
         },
       },
       {
+        t: "WhatsApp me",
+        g: "action",
+        run: () => {
+          const a = document.createElement("a");
+          a.href = CONTACT.whatsapp;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          toast("Opening WhatsApp…");
+        },
+      },
+      {
         t: "Copy email address",
         g: "action",
         run: () => {

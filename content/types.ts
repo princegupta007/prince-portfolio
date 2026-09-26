@@ -79,7 +79,12 @@ export interface ExperienceRole {
   past?: boolean;
   /** Heading above the context chips (varies per role in the prototype). */
   contextsLabel: string;
-  contexts: { name: string; sub: string }[];
+  contexts: {
+    name: string;
+    sub: string;
+    /** Optional subtle external proof link (freelance case reference). */
+    link?: { href: string; label?: string; aria: string };
+  }[];
   bullets: string[];
   tech: string[];
 }
@@ -120,6 +125,8 @@ export interface ContactRow {
   hint?: string;
   /** Render value in the numeric/mono style (phone). */
   numeric?: boolean;
+  /** Optional WhatsApp action (same number) rendered as an icon link. */
+  wa?: string;
 }
 
 export interface BentoTile {

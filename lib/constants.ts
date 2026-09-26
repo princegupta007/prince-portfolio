@@ -22,6 +22,8 @@ export const CONTACT = {
   email: "princegupta98299@gmail.com",
   emailHref: "mailto:princegupta98299@gmail.com",
   phone: "+91 99828 44166",
+  /** CV phone, WhatsApp shares the same number (owner-confirmed) — wa.me needs digits only. */
+  whatsapp: "https://wa.me/919982844166",
   phoneHref: "tel:+919982844166",
   github: "https://github.com/princegupta007",
   linkedin: "https://www.linkedin.com/in/princegupta7",
@@ -36,3 +38,10 @@ export const AVAILABILITY = {
 export const CV_PATH = "/cv/Prince_Gupta_Frontend_Engineer.pdf";
 
 export const THEME_COOKIE = "pg-theme";
+
+/**
+ * Owner add-on 3 (portrait): set to "/portrait.jpg" the moment the owner's
+ * headshot is committed to public/. Null = feature fully off (nothing renders,
+ * no JSON-LD image) so the build stays green without the asset.
+ */
+export const PORTRAIT_SRC: string | null = "/portrait.jpg";

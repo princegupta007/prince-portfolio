@@ -18,7 +18,10 @@ export const EXPERIENCE_LEAD =
 /** Sticky left rail facts. */
 export const EXPERIENCE_RAIL = [
   { label: "Currently", value: "Konstant Infosolutions" }, // CV: Konstant Infosolutions, Jul 2024 – present
-  { label: "Client products", value: "6 platforms" }, // CV: six client products
+  // Career total: six Konstant agency client products + one freelance client
+  // platform (fitness-sector site, solo). Keep in sync with metrics.ts and
+  // expertise.ts lead; the Konstant role bullet stays "six" (agency-scoped).
+  { label: "Client products", value: "7 platforms" },
   { label: "Own product", value: "1 · end-to-end" }, // CV: freelance — sole developer, end to end
   { label: "Geographies", value: "IN · GCC · AU · JP" }, // CV: India, the GCC, Australia and Japan
 ] as const;
@@ -33,7 +36,10 @@ export const EXPERIENCE_ROLES: ExperienceRole[] = [
     current: true,
     contextsLabel: "Product contexts — described by type",
     bullets: [
-      // CV: Konstant summary bullet — six client products, regions, stack
+      // CV: Konstant summary bullet — six client products, regions, stack.
+      // Scope: agency delivery at Konstant only; the career-wide client-product
+      // total (7, incl. the freelance fitness-sector platform) lives in
+      // EXPERIENCE_RAIL / metrics.ts / expertise.ts.
       "Frontend and full-stack delivery across **six client products** — marketplaces, admin platforms and operational dashboards for clients in India, the GCC, Australia and Japan — built on React.js, Next.js (App Router, SSR) and TypeScript against NestJS / Express REST APIs on PostgreSQL.",
       // CV: Konstant bullet — RBAC 4 roles, permission-based UI, 5,000+ users
       "Designed a **server-enforced RBAC model for 4 roles** with separate dashboards and permission-based UI rendering, serving **5,000+ active users** on a multi-role operations platform.",
@@ -70,10 +76,10 @@ export const EXPERIENCE_ROLES: ExperienceRole[] = [
   {
     title: "Freelance Full-Stack Developer",
     titleNote: "(Independent)",
-    company: "Own product",
+    company: "Own product + client work",
     place: "concurrent with full-time role",
     period: "Jun 2026 — Jul 2026", // CV: freelance dates
-    badge: "Own product",
+    badge: "Own product + client work",
     past: true,
     contextsLabel: "Product context",
     bullets: [
@@ -87,6 +93,16 @@ export const EXPERIENCE_ROLES: ExperienceRole[] = [
       {
         name: "Support & relationship platform",
         sub: "concept → production, 8 weeks",
+      },
+      // Owner-confirmed freelance engagement (solo, ~1 day to live):
+      // referenced by type + proof link only — no project name shown.
+      {
+        name: "Fitness-sector client platform",
+        sub: "solo build",
+        link: {
+          href: "https://fitnessforgegym.in",
+          aria: "Client site of a solo freelance engagement (fitnessforgegym.in)",
+        },
       },
     ],
     tech: [
