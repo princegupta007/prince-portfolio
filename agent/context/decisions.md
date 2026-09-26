@@ -119,3 +119,20 @@ dominates LCP (3.4s) on desktop AND mobile; app-side signals are clean (CLS 0,
 a11y/BP/SEO 100, TBT reduced via D37). Absolute perf scores here (84-85) are an
 environment artifact; production verification on Vercel edge in Phase 12 is binding.
 Exception filed for phase-13 exceptions.md.
+
+### D39 · Headers single-sourced in next.config.ts; CSP form (phase-10)
+Cache + security headers moved from vercel.json into next.config.ts headers() so they are
+enforced AND testable locally (vercel.json deleted). CSP enforced: default-src 'self';
+script-src 'self' 'unsafe-inline' (App Router inlines RSC flight data — nonce would need
+per-request server code = serverless function, forbidden by plan); style-src 'self'
+'unsafe-inline' (theme/inline styles); img 'self' data:; font 'self'; connect 'self';
+frame-ancestors 'none'. Zero console CSP violations both themes (palette + theme toggle).
+
+### D40 · Failure matrix coverage (phase-10, plan §6)
+route render error → app/error.tsx card (retry + mailto, console-only) · whole-app error →
+global-error.tsx self-contained shell · unknown route → styled not-found (404 status) ·
+streaming placeholder → loading.tsx (never flashes on the single sync route) · island
+runtime crash → IslandBoundary static variants (exhibit matrix / wiring steps / canvas
+frame / palette no-op) proven by temp drill then REMOVED from source · clipboard denial →
+textarea fallback + literal-value toast (tested with permissions=[]) · storage exceptions →
+try/catch since phase-5 · font failure → next/font fallback stack. No error SaaS (free tier).

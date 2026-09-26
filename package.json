@@ -16,7 +16,8 @@
     "agent:bundle-check": "tsx agent/tools/bundle-check.ts",
     "agent:secret-scan": "echo \"[agent] secret-scan lands in Phase 10\" && exit 0",
     "test": "vitest run",
-    "test:e2e": "tsx tests/e2e/run.ts"
+    "test:e2e": "tsx tests/e2e/run.ts",
+    "agent:smoke": "tsx agent/tools/smoke-prod.ts"
   },
   "dependencies": {
     "next": "16.3.6",

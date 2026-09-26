@@ -4441,6 +4441,97 @@ button.crow {
   cursor: pointer;
 }
 
+/* ── PHASE 10 · ERROR / FALLBACK SHELLS ─────────────────────────────── */
+.err-wrap,
+.nf-wrap {
+  min-height: 70vh;
+  display: grid;
+  place-items: center;
+  padding: clamp(64px, 10vw, 120px) 20px;
+  text-align: center;
+}
+.err-card,
+.nf-wrap > * {
+  max-width: 620px;
+}
+.err-title,
+.nf-title {
+  font-family: var(--display);
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 14px 0 10px;
+}
+.nf-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--ink);
+}
+.err-lede,
+.nf-lede {
+  color: var(--ink-2);
+  margin-bottom: 22px;
+}
+.err-digest {
+  display: block;
+  margin-top: 14px;
+  color: var(--ink-3);
+  font-size: 0.7rem;
+}
+.nf-nav ul {
+  list-style: none;
+  margin: 0 0 22px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 26px;
+  text-align: left;
+}
+.nf-nav a {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-2);
+  display: flex;
+  gap: 8px;
+}
+.nf-nav a em {
+  font-style: normal;
+  color: var(--color-accent-fg);
+}
+.load-shell {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 56px;
+  display: grid;
+  align-items: center;
+  padding: 0 20px;
+}
+.load-bar {
+  height: 10px;
+  border-radius: 6px;
+  background: var(--line);
+}
+.island-static {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px;
+  background: var(--panel);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-2);
+}
+.island-static ul {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.canvas.static-frame {
+  min-height: 320px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .js .reveal,
   .js .reveal.in {

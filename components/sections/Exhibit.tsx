@@ -2,6 +2,7 @@ import { Icon } from "@/components/ui/Icon";
 import type { CSSProperties } from "react";
 import { SectionHead } from "@/components/ui/Primitives";
 import { RoleLens } from "@/components/interactive/RoleLens";
+import { IslandBoundary } from "@/components/interactive/IslandBoundary";
 import { parseRich } from "@/lib/rich";
 import {
   EXHIBIT_DISCLAIMER,
@@ -28,7 +29,21 @@ export function Exhibit() {
         <p className="sec-lede reveal" style={{ "--d": "80ms" } as CSSProperties}>
           {parseRich(EXHIBIT_INTRO)}
         </p>
-        <RoleLens />
+        <IslandBoundary
+          label="exhibit"
+          fallback={
+            <div className="island-static" aria-label="Feature access matrix (static view)">
+              <p className="mono">ACCESS MATRIX — SUPER ADMIN (STATIC)</p>
+              <ul role="list">
+                <li>Users & roles · enabled</li>
+                <li>Billing & subscriptions · enabled</li>
+                <li>Audit trail · enabled</li>
+              </ul>
+            </div>
+          }
+        >
+          <RoleLens />
+        </IslandBoundary>
         <p className="exhibit-note">
           <Icon name="info" size={14} />
           {EXHIBIT_DISCLAIMER}

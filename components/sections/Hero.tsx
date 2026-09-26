@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { Pill } from "@/components/ui/Primitives";
 import { HeroCanvasLazy as HeroCanvas } from "@/components/interactive/HeroCanvasLazy";
+import { IslandBoundary } from "@/components/interactive/IslandBoundary";
 import { HeroFx } from "@/components/interactive/HeroFx";
 import { ScrambleWord } from "@/components/interactive/ScrambleWord";
 import { CONTACT, CV_PATH } from "@/lib/constants";
@@ -112,7 +113,19 @@ export function Hero() {
           </div>
         </div>
         <div className="hero-visual" id="heroVisual" aria-hidden="true">
-          <HeroCanvas />
+          <IslandBoundary
+            label="hero-canvas"
+            fallback={
+              <div className="canvas static-frame" aria-hidden="true">
+                <div className="cv-chrome">
+                  <span className="tl-dots"><i /><i /><i /></span>
+                  <span className="cv-url">admin · specimen</span>
+                </div>
+              </div>
+            }
+          >
+            <HeroCanvas />
+          </IslandBoundary>
         </div>
         <p className="sr-only">
           Animated specimen beside this intro: a mock admin console cycling
