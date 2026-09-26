@@ -13,7 +13,8 @@ import { Preloader } from "@/components/interactive/Preloader";
 import { Reveal } from "@/components/interactive/Reveal";
 import { TimelineFill } from "@/components/interactive/TimelineFill";
 import { ToastProvider } from "@/components/ui/Toast";
-import { THEME_COOKIE } from "@/lib/constants";
+import { THEME_COOKIE , SITE_ORIGIN } from "@/lib/constants";
+import { JsonLd } from "@/components/seo/JsonLd";
 import "./globals.css";
 
 // Self-hosted by next/font — zero runtime requests to font CDNs (rule 30).
@@ -47,10 +48,40 @@ const mono = JetBrains_Mono({
  */
 const BOOT_SCRIPT = `(function(){var d=document.documentElement;d.className+=" js";try{if(!sessionStorage.getItem("pg-seen")){d.className+=" pg-pre";sessionStorage.setItem("pg-seen","1")}}catch(e){}})();`;
 
+const TITLE = "Prince Gupta — Frontend Engineer · React.js, Next.js, TypeScript";
+const DESCRIPTION =
+  "Portfolio of Prince Gupta, Frontend Engineer (React.js, Next.js, TypeScript) — Jaipur, India. 3.5+ years shipping production admin platforms, marketplaces and real-time operational dashboards.";
+
 export const metadata: Metadata = {
-  title: "Prince Gupta — Frontend Engineer",
-  description:
-    "Portfolio of Prince Gupta, Frontend Engineer (React.js, Next.js, TypeScript) — Jaipur, India.",
+  metadataBase: new URL(SITE_ORIGIN),
+  title: TITLE,
+  description: DESCRIPTION,
+  authors: [{ name: "Prince Gupta", url: SITE_ORIGIN }],
+  creator: "Prince Gupta",
+  alternates: { canonical: "/" },
+  robots: { index: true, follow: true },
+  openGraph: {
+    type: "profile",
+    title: TITLE,
+    description: DESCRIPTION,
+    url: "/",
+    siteName: "Prince Gupta — Frontend Engineer",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Prince Gupta — Frontend Engineer" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/og.png"],
+  },
+  icons: {
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/og.png" }],
+  },
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0a0b0d" },
+    { media: "(prefers-color-scheme: light)", color: "#f5f4ed" },
+  ],
 };
 
 export default async function RootLayout({
@@ -72,6 +103,7 @@ export default async function RootLayout({
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: BOOT_SCRIPT }} />
+        <JsonLd />
       </head>
       <body className="min-h-full">
         <Preloader />
